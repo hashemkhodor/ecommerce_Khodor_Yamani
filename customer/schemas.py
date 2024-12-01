@@ -1,8 +1,9 @@
 from typing import Any, Literal, Optional, TypedDict, Union
+from datetime import datetime
 
 from fastapi import status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field, PositiveInt
+from pydantic import BaseModel, Field, PositiveInt, field_validator
 
 MaritalStatus = Literal["single", "married", "divorced", "widows"]
 CustomerRole = Literal["customer", "moderator", "admin"]
@@ -22,6 +23,8 @@ class Customer(BaseModel):
 class Wallet(BaseModel):
     customer_id: str
     amount: float = Field(..., ge=0)
+    last_updated: Optional[str] = None  # Automatically converted to datetime
+
 
 
 class CustomerRegisterRequestSchema(BaseModel):
@@ -53,12 +56,12 @@ class BaseCustomResponse(JSONResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        message: str,
-        data: Optional[Any] = None,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            message: str,
+            data: Optional[Any] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         content = {"message": message}
         if data is not None:
@@ -76,17 +79,20 @@ class CustomerRegisterResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        register_schema: BaseModel,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            register_schema: BaseModel,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_201_CREATED:
-            message = f"Registered {register_schema.username} successfully"
+            message = f"Registered '{register_schema.username}' successfully"
+
+        elif status_code == status.HTTP_400_BAD_REQUEST:
+            message = f"Failed to register {register_schema.username}"
         elif status_code == status.HTTP_409_CONFLICT:
             message = (
-                f'Customer with username "{register_schema.username}" already exists'
+                f"Customer with username '{register_schema.username}' already exists"
             )
         elif status_code == status.HTTP_500_INTERNAL_SERVER_ERROR:
             message = "Internal Server Error. Please try registering again later"
@@ -104,14 +110,16 @@ class CustomerDeleteResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        customer_id: str,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            customer_id: str,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             message = f"Deleted '{customer_id}' successfully"
+        elif status_code == status.HTTP_400_BAD_REQUEST:
+            message = f"Failed to delete customer with id '{customer_id}'"
         elif status_code == status.HTTP_404_NOT_FOUND:
             message = f"Customer with username '{customer_id}' not found"
         elif status_code == status.HTTP_500_INTERNAL_SERVER_ERROR:
@@ -130,12 +138,12 @@ class CustomerUpdateResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        customer_id: str,
-        updated_customer: Optional[BaseModel] = None,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            customer_id: str,
+            updated_customer: Optional[BaseModel] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             if updated_customer is None:
@@ -171,18 +179,19 @@ class CustomerGetResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        customer_id: str,
-        customer: Optional[BaseModel] = None,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            customer_id: str,
+            customer: Optional[BaseModel] = None,
+            wallet: Optional[BaseModel] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             if customer is None:
                 raise ValueError("Customer data must be provided for a 200 OK status")
             message = f"Retrieved customer '{customer_id}' successfully"
-            data = customer.model_dump()
+            data = {"user": customer.model_dump(), "wallet": wallet.model_dump()}
         elif status_code == status.HTTP_404_NOT_FOUND:
             message = f"Customer with username '{customer_id}' not found"
             data = None
@@ -207,19 +216,20 @@ class WalletChargeResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        customer_id: str,
-        amount: float,
-        new_balance: Optional[float] = None,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            customer_id: str,
+            amount: float,
+            new_balance: Optional[float] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         data: Optional[dict[str, float]] = None
 
         if status_code == status.HTTP_200_OK:
             message = f"Wallet for customer '{customer_id}' charged with {amount}"
             data = {"new_balance": new_balance}
+
         elif status_code == status.HTTP_404_NOT_FOUND:
             message = f"Wallet for customer '{customer_id}' not found"
         elif status_code == status.HTTP_500_INTERNAL_SERVER_ERROR:
@@ -242,13 +252,13 @@ class WalletDeductResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        customer_id: str,
-        amount: float,
-        new_balance: Optional[float] = None,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            customer_id: str,
+            amount: float,
+            new_balance: Optional[float] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         data: Optional[dict[str, str | int | float]] = None
         if status_code == status.HTTP_200_OK:

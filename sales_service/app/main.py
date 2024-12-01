@@ -12,7 +12,7 @@ def fetch_all_purchases():
             {
                 "id": purchase["id"],
                 "good_id": purchase["good_id"],
-                "customer_id": purchase["customer_id"],
+                "user_id": purchase["user_id"],
                 "amount_deducted": purchase["amount_deducted"],
                 "time": purchase["time"],
             }

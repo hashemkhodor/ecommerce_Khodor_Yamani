@@ -39,7 +39,7 @@ class ReviewTable:
         content = (
             self.client.table("review")
             .select("*")
-            .eq("customer_id", customer_id)
+            .eq("user_id", customer_id)
             .execute()
         )
         if content.data:
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     table: ReviewTable = ReviewTable(url=url, key=key)
 
     review = Review(
-        customer_id="customer_id",
+        customer_id="user_id",
         item_id="3",
         rating=3,
         comment="comment",

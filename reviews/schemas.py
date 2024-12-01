@@ -36,7 +36,7 @@ class PutReviewRequest(BaseModel):
 
 
 # class DeleteReviewRequest(BaseModel):
-#     customer_id: str
+#     user_id: str
 #     item_id: str
 
 
