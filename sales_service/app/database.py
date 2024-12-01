@@ -1,40 +1,22 @@
-import sqlite3
-from sqlite3 import Connection
-from app.models import Purchase
+from supabase import create_client, Client
+from typing import List
+from models import Purchase
 
-DB_NAME = "sales.db"
+url: str = "abc"
+key: str = "bdhhi"
 
-def create_tables():
-    connection = sqlite3.connect(DB_NAME)
-    cursor = connection.cursor()
+supabase: Client = create_client(url, key)
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS purchases (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        good_id INTEGER NOT NULL,
-        customer_id TEXT NOT NULL,
-        amount_deducted REAL NOT NULL,
-        time TEXT NOT NULL
-    )
-    """)
+def record_purchase(purchase: Purchase):
+    response = supabase.table("purchases").insert(purchase.dict()).execute()
 
-    connection.commit()
-    connection.close()
+    if response.error:
+        raise Exception(f"Failed to record purchase: {response.error.message}")
+    return response.data
 
-def get_db_connection():
-    return sqlite3.connect(DB_NAME, check_same_thread=False)
+def get_purchases() -> List[dict]:
+    response = supabase.table("purchases").select("*").execute()
 
-def record_purchase(connection: Connection, purchase: Purchase):
-    cursor = connection.cursor()
-    cursor.execute("""
-    INSERT INTO purchases (good_id, customer_id, amount_deducted, time)
-    VALUES (?, ?, ?, ?)
-    """, (purchase.good_id, purchase.customer_id, purchase.amount_deducted, purchase.time))
-    connection.commit()
-
-def get_purchases(connection: Connection):
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM purchases")
-    return cursor.fetchall()
-
-create_tables()
+    if response.error:
+        raise Exception(f"Failed to fetch purchases: {response.error.message}")
+    return response.data or []  # return empty list if no records found

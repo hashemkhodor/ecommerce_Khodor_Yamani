@@ -10,19 +10,23 @@ CUSTOMER_SERVICE_URL = "http://customer_service:8000/api/v1/customer"
 def fetch_good_details(good_id: int):
     with httpx.Client() as client:
         response = client.get(f"{INVENTORY_SERVICE_URL}/get/{good_id}")
-    if response.status_code != 200:
-        raise ValueError("Good not found")
+    if response.status_code == 404:
+        raise ValueError(f"Good with ID '{good_id}' not found")
+    elif response.status_code != 200:
+        raise ValueError("Failed to fetch good details")
     return response.json()
 
 
 def deduct_wallet_balance(customer_username: str, amount: float):
     with httpx.Client() as client:
         response = client.put(
-            f"{CUSTOMER_SERVICE_URL}/wallet/deduct",
-            json={"username": customer_username, "amount": amount},
+            f"{CUSTOMER_SERVICE_URL}/wallet/{customer_username}/deduct",
+            json={"amount": amount},
         )
     if response.status_code == 404:
         raise ValueError(f"Customer '{customer_username}' not found in the database")
+    elif response.status_code != 400:
+        raise ValueError("Amount not enough")
     elif response.status_code != 200:
         raise ValueError("Failed to deduct wallet balance")
     return response.json()
@@ -30,13 +34,17 @@ def deduct_wallet_balance(customer_username: str, amount: float):
 
 def deduct_inventory(good_id: int):
     with httpx.Client() as client:
-        response = client.put(f"{INVENTORY_SERVICE_URL}/deduct", json={"good_id": good_id})
-    if response.status_code != 200:
+        response = client.put(f"{INVENTORY_SERVICE_URL}/deduct/{good_id}")
+    if response.status_code == 404:
+        raise ValueError(f"Good with ID '{good_id}' not found")
+    elif response.status_code == 400:
+        raise ValueError("Stock already zero")
+    elif response.status_code != 200:
         raise ValueError("Failed to deduct inventory")
     return response.json()
 
 
-def process_purchase(connection, customer_username: str, good_id: int):
+def process_purchase(customer_username: str, good_id: int):
     try:
         good = fetch_good_details(good_id)
         price = good["price"]
@@ -49,7 +57,7 @@ def process_purchase(connection, customer_username: str, good_id: int):
             customer_id=customer_username,
             amount_deducted=price,
         )
-        record_purchase(connection, purchase)
+        record_purchase(purchase)
 
         return {"message": "Purchase successful"}
     
