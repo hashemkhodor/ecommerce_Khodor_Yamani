@@ -1,10 +1,10 @@
 import os
+from typing import Optional
 
 from dotenv import load_dotenv
-from typing import Dict, Optional
-from loguru import logger
 from fastapi import APIRouter, Body, FastAPI
 from fastapi.responses import JSONResponse
+from loguru import logger
 
 from customer.models import CustomerTable
 from customer.schemas import (Customer, CustomerDeleteResponse,

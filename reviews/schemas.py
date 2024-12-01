@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 
 class Review(BaseModel):
     customer_id: str
-    item_id: str
+    item_id: int
     rating: int = Field(
         ..., ge=1, le=5, description="Rating must be between 1 and 5"
     )  # Enforce range 1-5
@@ -19,7 +19,7 @@ class Review(BaseModel):
 
 class PostReviewRequest(BaseModel):
     customer_id: str
-    item_id: str
+    item_id: int
     rating: int = Field(
         ..., ge=1, le=5, description="Rating must be between 1 and 5"
     )  # Enforce range 1-5
@@ -28,7 +28,7 @@ class PostReviewRequest(BaseModel):
 
 class PutReviewRequest(BaseModel):
     customer_id: str
-    item_id: str
+    item_id: int
     rating: Optional[int] = Field(
         ..., ge=1, le=5, description="Rating must be between 1 and 5"
     )  # Enforce range 1-5
@@ -44,7 +44,7 @@ class ModerateRequest(BaseModel):
     """ """
 
     customer_id: str
-    item_id: str
+    item_id: int
 
     flag: Literal["flagged", "approved", "needs_approval"]
 
@@ -55,12 +55,12 @@ class BaseCustomResponse(JSONResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        message: str,
-        data: Optional[Any] = None,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            message: str,
+            data: Optional[Any] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         content = {"message": message}
         if data is not None:
@@ -78,11 +78,11 @@ class PostReviewResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        review_schema: PostReviewRequest,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            review_schema: PostReviewRequest,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             message = (
@@ -112,11 +112,11 @@ class PutReviewResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        review_schema: PutReviewRequest,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            review_schema: PutReviewRequest,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             if review_schema is None:
@@ -155,12 +155,12 @@ class DeleteReviewResponse(BaseCustomResponse):
     """
 
     def __init__(
-        self,
-        status_code: int,
-        item_id: str,
-        customer_id: str,
-        notes: Optional[str] = None,
-        errors: Optional[str] = None,
+            self,
+            status_code: int,
+            item_id: int,
+            customer_id: str,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             message = f"Deleted review successfully."
@@ -176,4 +176,49 @@ class DeleteReviewResponse(BaseCustomResponse):
             message=message,
             notes=notes,
             errors=errors,
+        )
+
+
+class GetReviewsResponse(BaseCustomResponse):
+    """
+    Response for customer registration.
+    """
+
+    def __init__(
+            self,
+            status_code: int,
+            item_id: Optional[int] = None,
+            customer_id: Optional[str] = None,
+            reviews: Optional[list[Review]] = None,
+            notes: Optional[str] = None,
+            errors: Optional[str] = None,
+    ):
+        assert (item_id is not None) or (customer_id is not None), "You must provide either item_id or customer_id"
+        data: Optional[list[dict]] = None
+
+        if status_code == status.HTTP_200_OK:
+            if item_id and customer_id:
+                identifier_message = f"for item_id {item_id} and customer_id {customer_id}"
+            elif item_id:
+                identifier_message = f"for item_id {item_id}"
+            elif customer_id:
+                identifier_message = f"for customer_id {customer_id}"
+            else:
+                identifier_message = ""
+
+            message = f"Fetched reviews successfully {identifier_message}."
+            assert reviews is not None, "You must provide reviews if status code is good"
+            data = [review.model_dump() for review in reviews]
+
+        elif status_code == status.HTTP_500_INTERNAL_SERVER_ERROR:
+            message = "Internal Server Error. Please try deleting again later"
+        else:
+            raise ValueError(f"Unexpected status code: {status_code}")
+
+        super().__init__(
+            status_code=status_code,
+            message=message,
+            notes=notes,
+            errors=errors,
+            data=data
         )
