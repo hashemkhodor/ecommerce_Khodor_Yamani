@@ -1,6 +1,7 @@
-from typing import Literal, TypedDict, Optional, Union, Any
-from fastapi.responses import JSONResponse
+from typing import Any, Literal, Optional, TypedDict, Union
+
 from fastapi import status
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, PositiveInt
 
 MaritalStatus = Literal["single", "married", "divorced", "widows"]
