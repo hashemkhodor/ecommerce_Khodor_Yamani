@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Literal
 from enum import Enum
+
 
 class Category(str, Enum):
     FOOD = "food"
@@ -8,12 +9,14 @@ class Category(str, Enum):
     ACCESSORIES = "accessories"
     ELECTRONICS = "electronics"
 
+
 class Good(BaseModel):
     name: str = Field(..., max_length=100)
-    category: Category
+    category: Literal["food", "clothes", "accessories", "electronics"]
     price: float = Field(..., gt=0)
     description: str = Field(..., max_length=255)
     count: int = Field(..., ge=0)
+
 
 class GoodUpdate(BaseModel):
     name: Optional[str] = Field(None, max_length=100)

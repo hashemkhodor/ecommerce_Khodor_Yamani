@@ -1,8 +1,10 @@
 import os
 from typing import Optional
 
+
 from dotenv import load_dotenv
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
+from starlette import status
 from supabase import Client, create_client
 from loguru import logger
 from reviews.schemas import Review
@@ -13,10 +15,28 @@ class ReviewTable:
         self.client: Client = create_client(url, key)
         self.table: SyncRequestBuilder = self.client.table("review")
 
+    def customer_and_item_exist(self, customer_id: str, item_id: int) -> int:
+        """ Returns status code"""
+        try:
+            if not self.client.table("customer").select("*").eq("username", customer_id).execute().data:
+                return status.HTTP_400_BAD_REQUEST
+            if not self.client.table("inventory").select("*").eq("id", item_id).execute().data:
+                return status.HTTP_400_BAD_REQUEST
+
+            return status.HTTP_200_OK
+        except Exception as e:
+            logger.error(e)
+            logger.exception(e)
+            return status.HTTP_500_INTERNAL_SERVER_ERROR
+
     def submit_review(self, review: Review) -> Optional[list[Review]]:
         try:
+            logger.info(f"Verifying that item with id '{review.item_id}' and customer with id '{review.customer_id}' "
+                        f"exist")
+
             logger.info(f"Submitting review: {review.model_dump()}")
             content = self.table.insert(review.model_dump(exclude={"time"})).execute()
+
             if content.data:
                 logger.success("Successfully submitted review")
                 return [Review.model_validate(content.data[0])]
@@ -47,7 +67,7 @@ class ReviewTable:
     def update_review(self, review: Review) -> Optional[list[Review]]:
         try:
             logger.info(f"Updating review {review.item_id},{review.customer_id}: {review.model_dump()}")
-            query = self.table.update(review.model_dump(exclude={"customer_id", "item_id"}))\
+            query = self.table.update(review.model_dump(exclude={"customer_id", "item_id"})) \
                 .eq("customer_id", review.customer_id).eq("item_id", review.item_id).execute()
             if query.data:
                 logger.success("Successfully updated the review")
@@ -58,7 +78,7 @@ class ReviewTable:
             logger.exception(e)
             return None
 
-    def get_review(self, item_id: int, customer_id: str) -> Optional[Review]:
+    def get_review(self, item_id: int, customer_id: str) -> Optional[list[Review]]:
         return self.get_reviews(item_id=item_id, customer_id=customer_id)
 
     def get_item_reviews(self, item_id: str) -> Optional[list[Review]]:
