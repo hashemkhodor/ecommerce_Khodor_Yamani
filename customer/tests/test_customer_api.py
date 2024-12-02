@@ -2,8 +2,7 @@ import pytest
 from fastapi import status
 from httpx import AsyncClient
 
-from customer.router import \
-    app  # Adjust the import path as needed for your app
+from customer.router import app  # Adjust the import path as needed for your app
 
 
 @pytest.fixture

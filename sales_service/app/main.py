@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
 from app.database import get_purchases
 from app.service import process_purchase
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
+
 
 @app.get("/api/v1/sales/get")
 def fetch_all_purchases():
@@ -31,6 +32,8 @@ def purchase_good(customer_username: str, good_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8000)

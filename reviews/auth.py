@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
-from typing import Union, TypedDict
+from typing import TypedDict, Union
+
 import jwt
-from jwt import DecodeError, ExpiredSignatureError
-from fastapi import Depends, HTTPException, status, Header
+from fastapi import Depends, Header, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from jwt import DecodeError, ExpiredSignatureError
 
 # Constants
 SECRET_KEY = "your_secret_key_here"
@@ -11,8 +12,6 @@ ALGORITHM = "HS256"
 
 # OAuth2 Scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/reviews/auth/login")
-
-
 
 
 class Customer(TypedDict):
@@ -25,7 +24,9 @@ class Customer(TypedDict):
     role: str
 
 
-def create_access_token(customer: Customer, expires_delta: timedelta = timedelta(hours=1)) -> str:
+def create_access_token(
+    customer: Customer, expires_delta: timedelta = timedelta(hours=1)
+) -> str:
     """
     Create a JWT token for a Customer.
 
@@ -73,7 +74,6 @@ def decode_access_token(token: str) -> Union[dict, str]:
         return "Invalid token."
 
 
-
 def get_current_user(authorization: str = Header(None)) -> dict:
     """
     Decode and verify the current user from the JWT token in the Authorization header.
@@ -118,6 +118,8 @@ def get_current_user(authorization: str = Header(None)) -> dict:
             detail="Invalid token.",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+
 # Example usage
 if __name__ == "__main__":
     # Generate a token for demonstration
@@ -129,7 +131,7 @@ if __name__ == "__main__":
         address="123 Main Street",
         gender=True,
         marital_status="single",
-        role="customer"
+        role="customer",
     )
 
     # Create a JWT token

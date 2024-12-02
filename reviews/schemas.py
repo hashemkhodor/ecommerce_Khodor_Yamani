@@ -59,12 +59,12 @@ class BaseCustomResponse(JSONResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            message: str,
-            data: Optional[Any] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        message: str,
+        data: Optional[Any] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         content = {"message": message}
         if data is not None:
@@ -78,12 +78,12 @@ class BaseCustomResponse(JSONResponse):
 
 class LoginResponse(BaseCustomResponse):
     def __init__(
-            self,
-            status_code: int,
-            credentials_schema: LoginRequest,
-            token: Optional[str] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        credentials_schema: LoginRequest,
+        token: Optional[str] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             # Successful login
@@ -109,7 +109,7 @@ class LoginResponse(BaseCustomResponse):
             message=message,
             notes=notes,
             errors=errors,
-            data=data
+            data=data,
         )
 
 
@@ -119,11 +119,11 @@ class PostReviewResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            review_schema: PostReviewRequest,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        review_schema: PostReviewRequest,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             message = (
@@ -132,9 +132,7 @@ class PostReviewResponse(BaseCustomResponse):
             )
 
         elif status_code == status.HTTP_400_BAD_REQUEST:
-            message = (
-                f"Either customer '{review_schema.customer_id}' or item with id '{review_schema.item_id}' doesn't exist."
-            )
+            message = f"Either customer '{review_schema.customer_id}' or item with id '{review_schema.item_id}' doesn't exist."
         elif status_code == status.HTTP_409_CONFLICT:
             message = (
                 f"{review_schema.customer_id}'s review for {review_schema.item_id} already exists. If you want to update"
@@ -157,11 +155,11 @@ class PutReviewResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            review_schema: PutReviewRequest,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        review_schema: PutReviewRequest,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             if review_schema is None:
@@ -200,12 +198,12 @@ class DeleteReviewResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            item_id: int,
-            customer_id: str,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        item_id: int,
+        customer_id: str,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             message = f"Deleted review successfully."
@@ -230,20 +228,24 @@ class GetReviewsResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            item_id: Optional[int] = None,
-            customer_id: Optional[str] = None,
-            reviews: Optional[list[Review]] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        item_id: Optional[int] = None,
+        customer_id: Optional[str] = None,
+        reviews: Optional[list[Review]] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
-        assert (item_id is not None) or (customer_id is not None), "You must provide either item_id or customer_id"
+        assert (item_id is not None) or (
+            customer_id is not None
+        ), "You must provide either item_id or customer_id"
         data: Optional[list[dict]] = None
 
         if status_code == status.HTTP_200_OK:
             if item_id and customer_id:
-                identifier_message = f"for item_id {item_id} and customer_id {customer_id}"
+                identifier_message = (
+                    f"for item_id {item_id} and customer_id {customer_id}"
+                )
             elif item_id:
                 identifier_message = f"for item_id {item_id}"
             elif customer_id:
@@ -252,7 +254,9 @@ class GetReviewsResponse(BaseCustomResponse):
                 identifier_message = ""
 
             message = f"Fetched reviews successfully {identifier_message}."
-            assert reviews is not None, "You must provide reviews if status code is good"
+            assert (
+                reviews is not None
+            ), "You must provide reviews if status code is good"
             data = [review.model_dump() for review in reviews]
 
         elif status_code == status.HTTP_500_INTERNAL_SERVER_ERROR:
@@ -265,7 +269,7 @@ class GetReviewsResponse(BaseCustomResponse):
             message=message,
             notes=notes,
             errors=errors,
-            data=data
+            data=data,
         )
 
 
@@ -275,20 +279,22 @@ class ModerateReviewsResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            item_id: int,
-            customer_id: str,
-            new_flag: str,
-            review: Optional[Review] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        item_id: int,
+        customer_id: str,
+        new_flag: str,
+        review: Optional[Review] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         data: Optional[dict] = None
 
         if status_code == status.HTTP_200_OK:
             if item_id and customer_id:
-                identifier_message = f"for item_id {item_id} and customer_id {customer_id}"
+                identifier_message = (
+                    f"for item_id {item_id} and customer_id {customer_id}"
+                )
             elif item_id:
                 identifier_message = f"for item_id {item_id}"
             elif customer_id:
@@ -314,5 +320,5 @@ class ModerateReviewsResponse(BaseCustomResponse):
             message=message,
             notes=notes,
             errors=errors,
-            data=data
+            data=data,
         )

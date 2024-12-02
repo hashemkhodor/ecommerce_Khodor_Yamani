@@ -1,11 +1,13 @@
-from supabase import create_client, Client
-from customer.schemas import Customer
 from models import Good, GoodUpdate
+from supabase import Client, create_client
+
+from customer.schemas import Customer
 
 url: str = "dehdwgu"
 key: str = "dehuehuiuh"
 
 supabase: Client = create_client(url, key)
+
 
 def add_good_to_db(good: Good):
     good_data = good.model_dump()
@@ -14,14 +16,18 @@ def add_good_to_db(good: Good):
         raise Exception(f"Failed to add good: {response.error.message}")
     return response.data
 
+
 def update_good_in_db(good_id: int, updated_good: GoodUpdate):
     update_data = updated_good.model_dump(exclude_none=True)
     if not update_data:
         raise ValueError("No fields provided to update.")
-    response = supabase.table("inventory").update(update_data).eq("id", good_id).execute()
+    response = (
+        supabase.table("inventory").update(update_data).eq("id", good_id).execute()
+    )
     if response.error:
         raise Exception(f"Failed to update good: {response.error.message}")
     return response.data
+
 
 def get_good_from_db(good_id: int):
     response = supabase.table("inventory").select("*").eq("id", good_id).execute()

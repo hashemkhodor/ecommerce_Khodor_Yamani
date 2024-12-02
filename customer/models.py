@@ -23,7 +23,11 @@ class CustomerTable:
                 logger.info("Successfully created customer")
                 # create wallet
                 logger.info(f"Creating wallet for customer {customer.username}")
-                wallet = self.client.table("wallet").insert({"customer_id": customer.username, "amount": 0.0}).execute()
+                wallet = (
+                    self.client.table("wallet")
+                    .insert({"customer_id": customer.username, "amount": 0.0})
+                    .execute()
+                )
                 if wallet.data:
                     logger.info("Successfully created wallet")
                     return True
@@ -66,8 +70,12 @@ class CustomerTable:
 
     def get_wallet(self, user_id: str) -> Optional[list[Wallet]]:
         try:
-            result = \
-                self.client.table("wallet").select("*").eq("customer_id", user_id).execute()
+            result = (
+                self.client.table("wallet")
+                .select("*")
+                .eq("customer_id", user_id)
+                .execute()
+            )
             if result.data is None:
                 return []
             return [Wallet.model_validate(result.data[0])]
@@ -82,9 +90,12 @@ class CustomerTable:
             if not wallet:
                 return wallet
 
-            updated_wallet = \
-                self.client.table("wallet").update({"amount": wallet[0].amount + amount}
-                                                   ).eq("customer_id", user_id).execute()
+            updated_wallet = (
+                self.client.table("wallet")
+                .update({"amount": wallet[0].amount + amount})
+                .eq("customer_id", user_id)
+                .execute()
+            )
 
             if updated_wallet.data:
                 return [Wallet.model_validate(updated_wallet.data[0])]
@@ -100,7 +111,9 @@ class CustomerTable:
         return self.update_wallet(user_id, amount)
 
     def charge_wallet(self, user_id: str, amount: float) -> Optional[list[Wallet]]:
-        assert isinstance(amount, float) and amount >= 0, "Amount must be greater than or equal 0"
+        assert (
+            isinstance(amount, float) and amount >= 0
+        ), "Amount must be greater than or equal 0"
 
         return self.update_wallet(user_id, amount)
 
@@ -121,7 +134,7 @@ class CustomerTable:
             return False
 
     def update_user(
-            self, user_id: str, new_customer: Customer
+        self, user_id: str, new_customer: Customer
     ) -> Optional[list[Customer]]:
         if self.get_users(username=user_id) is None:
             logger.info(f"User with username {user_id} not found")

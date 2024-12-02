@@ -1,5 +1,6 @@
-from datetime import timedelta
 import datetime
+from datetime import timedelta
+
 import jwt
 from jwt import DecodeError, ExpiredSignatureError
 
@@ -9,7 +10,9 @@ SECRET_KEY = "your_secret_key_here"
 ALGORITHM = "HS256"
 
 
-def create_access_token(customer: Customer, expires_delta: timedelta = timedelta(hours=1)) -> str:
+def create_access_token(
+    customer: Customer, expires_delta: timedelta = timedelta(hours=1)
+) -> str:
     """
     Create a JWT token for a Customer.
 
@@ -58,9 +61,9 @@ def decode_access_token(token: str) -> dict | str:
         return "Invalid token."
 
 
+import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-import jwt
 
 # Define the OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -97,7 +100,7 @@ if __name__ == "__main__":
         address="123 Main Street",
         gender=True,
         marital_status="single",
-        role="customer"
+        role="customer",
     )
     token = create_access_token(example_customer)
     print("Generated Token:", token)

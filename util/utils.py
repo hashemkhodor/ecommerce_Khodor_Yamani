@@ -1,6 +1,6 @@
 import os
-from random import choice, uniform, randint
-from faker import Faker
+from random import choice, randint, uniform
+
 from dotenv import load_dotenv
 from faker import Faker
 
@@ -35,7 +35,7 @@ def generate_fake_goods(n: int = 10) -> list[Good]:
                 category=choice(categories),
                 price=round(uniform(1, 1000), 2),
                 description=fake.text(max_nb_chars=50),
-                count=randint(0, 100)
+                count=randint(0, 100),
             )
         )
 
@@ -44,12 +44,17 @@ def generate_fake_goods(n: int = 10) -> list[Good]:
 
 if __name__ == "__main__":
     load_dotenv()
-    customer_table: CustomerTable = CustomerTable(url=os.getenv("SUPABASE_URL"), key=os.getenv("SUPABASE_KEY"))
+    customer_table: CustomerTable = CustomerTable(
+        url=os.getenv("SUPABASE_URL"), key=os.getenv("SUPABASE_KEY")
+    )
     customers: list[Customer] = [create_fake_customer() for _ in range(10)]
     goods: list[Good] = generate_fake_goods(10)
 
     # _ = [customer_table.create_customer(customer) for customer in customers]
-    _ = [customer_table.client.table("inventory").insert(good.model_dump()).execute() for good in goods]
+    _ = [
+        customer_table.client.table("inventory").insert(good.model_dump()).execute()
+        for good in goods
+    ]
 
     print(create_fake_customer().model_dump())
     print(generate_fake_goods(10))

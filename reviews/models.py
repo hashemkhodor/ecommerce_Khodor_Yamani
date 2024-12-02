@@ -1,12 +1,12 @@
 import os
 from typing import Optional
 
-
 from dotenv import load_dotenv
+from loguru import logger
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
 from starlette import status
 from supabase import Client, create_client
-from loguru import logger
+
 from reviews.schemas import Review
 
 
@@ -16,11 +16,23 @@ class ReviewTable:
         self.table: SyncRequestBuilder = self.client.table("review")
 
     def customer_and_item_exist(self, customer_id: str, item_id: int) -> int:
-        """ Returns status code"""
+        """Returns status code"""
         try:
-            if not self.client.table("customer").select("*").eq("username", customer_id).execute().data:
+            if (
+                not self.client.table("customer")
+                .select("*")
+                .eq("username", customer_id)
+                .execute()
+                .data
+            ):
                 return status.HTTP_400_BAD_REQUEST
-            if not self.client.table("inventory").select("*").eq("id", item_id).execute().data:
+            if (
+                not self.client.table("inventory")
+                .select("*")
+                .eq("id", item_id)
+                .execute()
+                .data
+            ):
                 return status.HTTP_400_BAD_REQUEST
 
             return status.HTTP_200_OK
@@ -31,8 +43,10 @@ class ReviewTable:
 
     def submit_review(self, review: Review) -> Optional[list[Review]]:
         try:
-            logger.info(f"Verifying that item with id '{review.item_id}' and customer with id '{review.customer_id}' "
-                        f"exist")
+            logger.info(
+                f"Verifying that item with id '{review.item_id}' and customer with id '{review.customer_id}' "
+                f"exist"
+            )
 
             logger.info(f"Submitting review: {review.model_dump()}")
             content = self.table.insert(review.model_dump(exclude={"time"})).execute()
@@ -66,9 +80,15 @@ class ReviewTable:
 
     def update_review(self, review: Review) -> Optional[list[Review]]:
         try:
-            logger.info(f"Updating review {review.item_id},{review.customer_id}: {review.model_dump()}")
-            query = self.table.update(review.model_dump(exclude={"customer_id", "item_id"})) \
-                .eq("customer_id", review.customer_id).eq("item_id", review.item_id).execute()
+            logger.info(
+                f"Updating review {review.item_id},{review.customer_id}: {review.model_dump()}"
+            )
+            query = (
+                self.table.update(review.model_dump(exclude={"customer_id", "item_id"}))
+                .eq("customer_id", review.customer_id)
+                .eq("item_id", review.item_id)
+                .execute()
+            )
             if query.data:
                 logger.success("Successfully updated the review")
                 return [Review.model_validate(review) for review in query.data]
@@ -90,7 +110,12 @@ class ReviewTable:
     def delete_review(self, item_id: int, customer_id: str) -> Optional[bool]:
         try:
             logger.info(f"Deleting {customer_id}'s review of item {item_id}")
-            result = self.table.delete().eq("item_id", item_id).eq("customer_id", customer_id).execute()
+            result = (
+                self.table.delete()
+                .eq("item_id", item_id)
+                .eq("customer_id", customer_id)
+                .execute()
+            )
             if result.data:
                 logger.success("Successfully delete the review")
                 return True
