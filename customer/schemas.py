@@ -1,5 +1,5 @@
-from typing import Any, Literal, Optional, TypedDict, Union
 from datetime import datetime
+from typing import Any, Literal, Optional, TypedDict, Union
 
 from fastapi import status
 from fastapi.responses import JSONResponse
@@ -24,7 +24,6 @@ class Wallet(BaseModel):
     customer_id: str
     amount: float = Field(..., ge=0)
     last_updated: Optional[str] = None  # Automatically converted to datetime
-
 
 
 class CustomerRegisterRequestSchema(BaseModel):
@@ -56,12 +55,12 @@ class BaseCustomResponse(JSONResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            message: str,
-            data: Optional[Any] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        message: str,
+        data: Optional[Any] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         content = {"message": message}
         if data is not None:
@@ -79,11 +78,11 @@ class CustomerRegisterResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            register_schema: BaseModel,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        register_schema: BaseModel,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_201_CREATED:
             message = f"Registered '{register_schema.username}' successfully"
@@ -110,11 +109,11 @@ class CustomerDeleteResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            customer_id: str,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        customer_id: str,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             message = f"Deleted '{customer_id}' successfully"
@@ -138,12 +137,12 @@ class CustomerUpdateResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            customer_id: str,
-            updated_customer: Optional[BaseModel] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        customer_id: str,
+        updated_customer: Optional[BaseModel] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             if updated_customer is None:
@@ -179,13 +178,13 @@ class CustomerGetResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            customer_id: str,
-            customer: Optional[BaseModel] = None,
-            wallet: Optional[BaseModel] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        customer_id: str,
+        customer: Optional[BaseModel] = None,
+        wallet: Optional[BaseModel] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         if status_code == status.HTTP_200_OK:
             if customer is None:
@@ -216,13 +215,13 @@ class WalletChargeResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            customer_id: str,
-            amount: float,
-            new_balance: Optional[float] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        customer_id: str,
+        amount: float,
+        new_balance: Optional[float] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         data: Optional[dict[str, float]] = None
 
@@ -252,13 +251,13 @@ class WalletDeductResponse(BaseCustomResponse):
     """
 
     def __init__(
-            self,
-            status_code: int,
-            customer_id: str,
-            amount: float,
-            new_balance: Optional[float] = None,
-            notes: Optional[str] = None,
-            errors: Optional[str] = None,
+        self,
+        status_code: int,
+        customer_id: str,
+        amount: float,
+        new_balance: Optional[float] = None,
+        notes: Optional[str] = None,
+        errors: Optional[str] = None,
     ):
         data: Optional[dict[str, str | int | float]] = None
         if status_code == status.HTTP_200_OK:

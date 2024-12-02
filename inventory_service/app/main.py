@@ -1,14 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from models import Good, GoodUpdate
-from service import add_good, update_good, get_good, deduct_good
-
+from service import add_good, deduct_good, get_good, update_good
+from loguru import logger
 app = FastAPI()
+
 
 @app.post("/api/v1/inventory/add")
 def add_good_endpoint(good: Good):
     try:
         return add_good(good)
     except Exception as e:
+        logger.exception(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -44,4 +46,5 @@ def deduct_good_endpoint(good_id: int):
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8000)

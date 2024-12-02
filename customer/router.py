@@ -1,25 +1,33 @@
 import os
+from typing import Optional
 
 from dotenv import load_dotenv
-from typing import Dict, Optional
-from loguru import logger
 from fastapi import APIRouter, Body, FastAPI
 from fastapi.responses import JSONResponse
+from loguru import logger
 
 from customer.models import CustomerTable
-from customer.schemas import (Customer, CustomerDeleteResponse,
-                              CustomerGetResponse,
-                              CustomerRegisterRequestSchema,
-                              CustomerRegisterResponse, CustomerUpdateResponse,
-                              CustomerUpdateSchema, Wallet,
-                              WalletChargeResponse, WalletDeductResponse)
+from customer.schemas import (
+    Customer,
+    CustomerDeleteResponse,
+    CustomerGetResponse,
+    CustomerRegisterRequestSchema,
+    CustomerRegisterResponse,
+    CustomerUpdateResponse,
+    CustomerUpdateSchema,
+    Wallet,
+    WalletChargeResponse,
+    WalletDeductResponse,
+)
 
 # from models import Customer, Wallet
 
 
 load_dotenv()
 
-db: CustomerTable = CustomerTable(url=os.getenv("SUPABASE_URL"), key=os.getenv("SUPABASE_KEY"))
+db: CustomerTable = CustomerTable(
+    url=os.getenv("SUPABASE_URL"), key=os.getenv("SUPABASE_KEY")
+)
 
 
 # Define router
@@ -28,16 +36,16 @@ router = APIRouter(prefix="/customer", tags=["Customer Management"])
 
 @router.post("/auth/register")
 async def register_customer(
-        customer: CustomerRegisterRequestSchema,
+    customer: CustomerRegisterRequestSchema,
 ) -> CustomerRegisterResponse:
     try:
 
         if db.get_user(user_id=customer.username):
             return CustomerRegisterResponse(status_code=409, register_schema=customer)
 
-        if db.create_customer(customer=Customer(
-                **customer.model_dump(), role="customer"
-        )):
+        if db.create_customer(
+            customer=Customer(**customer.model_dump(), role="customer")
+        ):
             return CustomerRegisterResponse(status_code=201, register_schema=customer)
 
         return CustomerRegisterResponse(status_code=400, register_schema=customer)
@@ -85,7 +93,11 @@ async def update_customer(customer_id: str, updates: CustomerUpdateSchema):
 
         updated_customer: Customer = Customer.model_validate(updated_data)
 
-        status_code: int = 200 if db.update_user(user_id=customer_id, new_customer=updated_customer) else 400
+        status_code: int = (
+            200
+            if db.update_user(user_id=customer_id, new_customer=updated_customer)
+            else 400
+        )
 
         return CustomerUpdateResponse(
             status_code=status_code,
@@ -95,7 +107,9 @@ async def update_customer(customer_id: str, updates: CustomerUpdateSchema):
 
     except Exception as e:
         logger.exception(e)
-        return CustomerUpdateResponse(status_code=500, customer_id=customer_id, errors=str(e))
+        return CustomerUpdateResponse(
+            status_code=500, customer_id=customer_id, errors=str(e)
+        )
 
 
 @router.get("/get")
@@ -104,7 +118,9 @@ async def get_all_customers():
         # data: list[dict] = list(
         #     map(lambda user: {user.username: user.model_dump()}, customers.values())
         # )
-        data = list(map(lambda user: {user.username: user.model_dump()}, db.get_customers()))
+        data = list(
+            map(lambda user: {user.username: user.model_dump()}, db.get_customers())
+        )
 
         return JSONResponse(status_code=200, content={"data": data})
 
@@ -120,12 +136,15 @@ async def get_customer(customer_id: str):
         if not customer:
             return CustomerGetResponse(status_code=404, customer_id=customer_id)
         # TODO - add wallet
-        customer_wallet : Optional[list[Wallet]] = db.get_wallet(user_id=customer_id)
+        customer_wallet: Optional[list[Wallet]] = db.get_wallet(user_id=customer_id)
         if not customer_wallet:
             return CustomerGetResponse(status_code=404, customer_id=customer_id)
 
         return CustomerGetResponse(
-            status_code=200, customer_id=customer_id, customer=customer[0], wallet = customer_wallet[0]
+            status_code=200,
+            customer_id=customer_id,
+            customer=customer[0],
+            wallet=customer_wallet[0],
         )
 
     except Exception as e:
@@ -143,10 +162,17 @@ async def charge_wallet(customer_id: str, amount: float = Body(..., ge=0)):
             return WalletChargeResponse(
                 status_code=404, customer_id=customer_id, amount=amount
             )
-        wallet: Optional[list[Wallet]] = db.charge_wallet(user_id=customer_id, amount=amount)
+        wallet: Optional[list[Wallet]] = db.charge_wallet(
+            user_id=customer_id, amount=amount
+        )
 
         if not wallet:
-            return WalletChargeResponse(status_code=500, customer_id=customer_id, amount=-1, errors="DB not responding")
+            return WalletChargeResponse(
+                status_code=500,
+                customer_id=customer_id,
+                amount=-1,
+                errors="DB not responding",
+            )
 
         return WalletChargeResponse(
             status_code=200,
@@ -175,10 +201,17 @@ async def deduct_wallet(customer_id: str, amount: float = Body(..., ge=0)):
                 status_code=400, customer_id=customer_id, amount=amount
             )
 
-        wallet: Optional[list[Wallet]] = db.deduct_wallet(user_id=customer_id, amount=-amount)
+        wallet: Optional[list[Wallet]] = db.deduct_wallet(
+            user_id=customer_id, amount=-amount
+        )
 
         if not wallet:
-            return WalletDeductResponse(status_code=500, customer_id=customer_id, amount=-1, errors="DB not responding")
+            return WalletDeductResponse(
+                status_code=500,
+                customer_id=customer_id,
+                amount=-1,
+                errors="DB not responding",
+            )
 
         return WalletDeductResponse(
             status_code=200,

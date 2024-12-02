@@ -1,6 +1,6 @@
 import httpx
-from app.models import Purchase
 from app.database import record_purchase
+from app.models import Purchase
 
 # URL for communicating between services
 INVENTORY_SERVICE_URL = "http://inventory_service:8000/api/v1/inventory"
@@ -60,6 +60,6 @@ def process_purchase(customer_username: str, good_id: int):
         record_purchase(purchase)
 
         return {"message": "Purchase successful"}
-    
+
     except ValueError as e:
         raise ValueError(str(e))
