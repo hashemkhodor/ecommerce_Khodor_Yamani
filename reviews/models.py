@@ -49,6 +49,7 @@ class ReviewTable:
             )
 
             logger.info(f"Submitting review: {review.model_dump()}")
+            logger.info(review.model_dump(exclude={"time"}))
             content = self.table.insert(review.model_dump(exclude={"time"})).execute()
 
             if content.data:

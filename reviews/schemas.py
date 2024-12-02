@@ -9,7 +9,7 @@ class Review(BaseModel):
     customer_id: str
     item_id: int
     rating: int = Field(
-        ..., ge=1, le=5, description="Rating must be between 1 and 5"
+        ..., ge=0, le=5, description="Rating must be between 1 and 5"
     )  # Enforce range 1-5
     comment: str
     time: Optional[str] = Field(None)
@@ -25,7 +25,7 @@ class PostReviewRequest(BaseModel):
     customer_id: str
     item_id: int
     rating: int = Field(
-        ..., ge=1, le=5, description="Rating must be between 1 and 5"
+        ..., ge=0, le=5, description="Rating must be between 1 and 5"
     )  # Enforce range 1-5
     comment: str
 
@@ -34,7 +34,7 @@ class PutReviewRequest(BaseModel):
     customer_id: str
     item_id: int
     rating: Optional[int] = Field(
-        ..., ge=1, le=5, description="Rating must be between 1 and 5"
+        ..., ge=0, le=5, description="Rating must be between 1 and 5"
     )  # Enforce range 1-5
     comment: Optional[str] = None
 
@@ -308,6 +308,8 @@ class ModerateReviewsResponse(BaseCustomResponse):
 
         elif status_code == status.HTTP_400_BAD_REQUEST:
             message = f"Customer '{customer_id}' or item with id '{item_id}' not found"
+        elif status_code == status.HTTP_401_UNAUTHORIZED:
+            message = f"Invalid Bearer Token"
         elif status_code == status.HTTP_404_NOT_FOUND:
             message = f"{customer_id}'s review for {item_id} not found"
         elif status_code == status.HTTP_500_INTERNAL_SERVER_ERROR:
