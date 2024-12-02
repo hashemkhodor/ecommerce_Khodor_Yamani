@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from models import Good, GoodUpdate
 from service import add_good, deduct_good, get_good, update_good
-
+from loguru import logger
 app = FastAPI()
 
 
@@ -10,6 +10,7 @@ def add_good_endpoint(good: Good):
     try:
         return add_good(good)
     except Exception as e:
+        logger.exception(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 

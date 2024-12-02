@@ -1,10 +1,9 @@
-from models import Good, GoodUpdate
 from supabase import Client, create_client
+from loguru import logger
+from models import Good, GoodUpdate
 
-from customer.schemas import Customer
-
-url: str = "dehdwgu"
-key: str = "dehuehuiuh"
+url: str = "https://htwmmjekmptcxksqlaob.supabase.co"
+key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0d21tamVrbXB0Y3hrc3FsYW9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5MDQ2ODksImV4cCI6MjA0ODQ4MDY4OX0.kfLUwS2Q5HNbEQJdhheXIxfBvm_HYYYkLdWiQV2DkjM"
 
 supabase: Client = create_client(url, key)
 
@@ -12,7 +11,10 @@ supabase: Client = create_client(url, key)
 def add_good_to_db(good: Good):
     good_data = good.model_dump()
     response = supabase.table("inventory").insert(good_data).execute()
-    if response.error:
+    logger.info(f"Adding {good.model_dump()}")
+    logger.info(response.data)
+
+    if not response.data:
         raise Exception(f"Failed to add good: {response.error.message}")
     return response.data
 
