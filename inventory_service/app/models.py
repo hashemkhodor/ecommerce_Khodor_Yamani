@@ -15,12 +15,16 @@ class Good(BaseModel):
     """
     Represents an inventory item.
 
-    Attributes:
-        name (str): The name of the item (maximum length: 100 characters).
-        category (Literal["food", "clothes", "accessories", "electronics"]): The category of the item.
-        price (float): The price of the item. Must be greater than 0.
-        description (str): A brief description of the item (maximum length: 255 characters).
-        count (int): The number of items available in stock. Must be non-negative.
+    :param name: The name of the item (maximum length: 100 characters).
+    :type name: str
+    :param category: The category of the item. Must be one of ['food', 'clothes', 'accessories', 'electronics'].
+    :type category: Literal["food", "clothes", "accessories", "electronics"]
+    :param price: The price of the item. Must be greater than 0.
+    :type price: float
+    :param description: A brief description of the item (maximum length: 255 characters).
+    :type description: str
+    :param count: The number of items available in stock. Must be non-negative.
+    :type count: int
     """
 
     name: str = Field(..., max_length=100)
@@ -34,12 +38,16 @@ class GoodUpdate(BaseModel):
     """
     Represents the fields for updating an inventory item.
 
-    Attributes:
-        name (Optional[str]): The new name of the item (maximum length: 100 characters).
-        category (Optional[Category]): The new category of the item.
-        price (Optional[float]): The new price of the item. Must be greater than 0.
-        description (Optional[str]): The new description of the item (maximum length: 255 characters).
-        count (Optional[int]): The new stock count of the item. Must be non-negative.
+    :param name: The new name of the item (maximum length: 100 characters). Optional.
+    :type name: Optional[str]
+    :param category: The new category of the item. Must be one of ['food', 'clothes', 'accessories', 'electronics']. Optional.
+    :type category: Optional[Category]
+    :param price: The new price of the item. Must be greater than 0. Optional.
+    :type price: Optional[float]
+    :param description: The new description of the item (maximum length: 255 characters). Optional.
+    :type description: Optional[str]
+    :param count: The new stock count of the item. Must be non-negative. Optional.
+    :type count: Optional[int]
     """
 
     name: Optional[str] = Field(None, max_length=100)

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
+from models import Good, GoodUpdate
+from service import add_good, deduct_good, get_good, update_good
 from loguru import logger
-from app.models import Good, GoodUpdate
-from app.service import add_good, deduct_good, get_good, update_good
 
 app = FastAPI()
 
@@ -9,16 +9,13 @@ app = FastAPI()
 @app.post("/api/v1/inventory/add")
 def add_good_endpoint(good: Good):
     """
-    Endpoint to add a new item to the inventory.
+    Adds a new inventory item.
 
-    Args:
-        good (Good): The item details to be added.
-
-    Returns:
-        dict: The details of the added item.
-
-    Raises:
-        HTTPException: If an error occurs while adding the item.
+    :param good: The details of the item to be added.
+    :type good: Good
+    :return: The response from the service layer after adding the item.
+    :rtype: dict
+    :raises HTTPException: If an error occurs during the addition process.
     """
 
     try:
@@ -31,17 +28,15 @@ def add_good_endpoint(good: Good):
 @app.put("/api/v1/inventory/update/{good_id}")
 def update_good_endpoint(good_id: int, good: GoodUpdate):
     """
-    Endpoint to update an existing inventory item.
+    Updates an existing inventory item.
 
-    Args:
-        good_id (int): The ID of the item to update.
-        good (GoodUpdate): The updated fields for the item.
-
-    Returns:
-        dict: The details of the updated item.
-
-    Raises:
-        HTTPException: If the item is not found or an error occurs while updating.
+    :param good_id: The ID of the item to be updated.
+    :type good_id: int
+    :param good: The updated details of the item.
+    :type good: GoodUpdate
+    :return: The response from the service layer after updating the item.
+    :rtype: dict
+    :raises HTTPException: If the item is not found or if an error occurs during the update process.
     """
 
     try:
@@ -55,16 +50,13 @@ def update_good_endpoint(good_id: int, good: GoodUpdate):
 @app.get("/api/v1/inventory/{good_id}")
 def get_good_endpoint(good_id: int):
     """
-    Endpoint to retrieve an inventory item by its ID.
+    Retrieves an inventory item by its ID.
 
-    Args:
-        good_id (int): The ID of the item to retrieve.
-
-    Returns:
-        dict: The details of the retrieved item.
-
-    Raises:
-        HTTPException: If the item is not found or an error occurs while retrieving.
+    :param good_id: The ID of the item to be retrieved.
+    :type good_id: int
+    :return: The details of the requested inventory item.
+    :rtype: dict
+    :raises HTTPException: If the item is not found or if an error occurs during retrieval.
     """
 
     try:
@@ -78,16 +70,13 @@ def get_good_endpoint(good_id: int):
 @app.put("/api/v1/inventory/deduct/{good_id}")
 def deduct_good_endpoint(good_id: int):
     """
-    Endpoint to deduct one unit from the stock of an inventory item.
+    Deducts one unit from an inventory item by its ID.
 
-    Args:
-        good_id (int): The ID of the item to deduct stock from.
-
-    Returns:
-        dict: The updated details of the item after deduction.
-
-    Raises:
-        HTTPException: If the stock is insufficient or an error occurs while deducting.
+    :param good_id: The ID of the item to be deducted.
+    :type good_id: int
+    :return: The response from the service layer after deduction.
+    :rtype: dict
+    :raises HTTPException: If the stock is insufficient or if an error occurs during deduction.
     """
 
     try:
@@ -98,7 +87,3 @@ def deduct_good_endpoint(good_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8002)
