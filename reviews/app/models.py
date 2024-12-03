@@ -11,12 +11,39 @@ from app.schemas import Review
 
 
 class ReviewTable:
+    """
+    Handles database operations for managing reviews.
+
+    Attributes:
+        client (Client): The Supabase client for database operations.
+        table (SyncRequestBuilder): The reviews table for database queries.
+    """
+
     def __init__(self, url: str, key: str):
+        """
+        Initializes the ReviewTable with a Supabase client.
+
+        :param url: The Supabase database URL.
+        :type url: str
+        :param key: The Supabase API key.
+        :type key: str
+        """
+
         self.client: Client = create_client(url, key)
         self.table: SyncRequestBuilder = self.client.table("review")
 
     def customer_and_item_exist(self, customer_id: str, item_id: int) -> int:
-        """Returns status code"""
+        """
+        Verifies if the customer and item exist in the database.
+
+        :param customer_id: The ID of the customer to check.
+        :type customer_id: str
+        :param item_id: The ID of the item to check.
+        :type item_id: int
+        :return: An HTTP status code indicating the existence or error.
+        :rtype: int
+        """
+
         try:
             if (
                 not self.client.table("customer")
@@ -42,6 +69,15 @@ class ReviewTable:
             return status.HTTP_500_INTERNAL_SERVER_ERROR
 
     def submit_review(self, review: Review) -> Optional[list[Review]]:
+        """
+        Submits a new review to the database.
+
+        :param review: The review object to submit.
+        :type review: Review
+        :return: A list containing the submitted review if successful, or None if an error occurs.
+        :rtype: Optional[list[Review]]
+        """
+
         try:
             logger.info(
                 f"Verifying that item with id '{review.item_id}' and customer with id '{review.customer_id}' "
@@ -62,6 +98,14 @@ class ReviewTable:
             return None
 
     def get_reviews(self, **filters) -> Optional[list[Review]]:
+        """
+        Retrieves reviews from the database based on filters.
+
+        :param filters: Key-value pairs for filtering reviews (e.g., item_id=1).
+        :return: A list of reviews that match the filters, or None if an error occurs.
+        :rtype: Optional[list[Review]]
+        """
+
         try:
             query: SyncSelectRequestBuilder = self.table.select("*")
             for _filter, value in filters.items():
@@ -80,6 +124,15 @@ class ReviewTable:
             return None
 
     def update_review(self, review: Review) -> Optional[list[Review]]:
+        """
+        Updates an existing review in the database.
+
+        :param review: The updated review object.
+        :type review: Review
+        :return: A list containing the updated review, or None if an error occurs.
+        :rtype: Optional[list[Review]]
+        """
+
         try:
             logger.info(
                 f"Updating review {review.item_id},{review.customer_id}: {review.model_dump()}"
@@ -100,15 +153,55 @@ class ReviewTable:
             return None
 
     def get_review(self, item_id: int, customer_id: str) -> Optional[list[Review]]:
+        """
+        Retrieves a specific review based on item and customer IDs.
+
+        :param item_id: The ID of the item.
+        :type item_id: int
+        :param customer_id: The ID of the customer.
+        :type customer_id: str
+        :return: A list containing the matching review, or None if an error occurs.
+        :rtype: Optional[list[Review]]
+        """
+
         return self.get_reviews(item_id=item_id, customer_id=customer_id)
 
     def get_item_reviews(self, item_id: str) -> Optional[list[Review]]:
+        """
+        Retrieves all reviews for a specific item.
+
+        :param item_id: The ID of the item to retrieve reviews for.
+        :type item_id: str
+        :return: A list of reviews for the item, or None if an error occurs.
+        :rtype: Optional[list[Review]]
+        """
+
         return self.get_reviews(item_id=item_id)
 
     def get_customer_reviews(self, customer_id: str) -> Optional[list[Review]]:
+        """
+        Retrieves all reviews submitted by a specific customer.
+
+        :param customer_id: The ID of the customer to retrieve reviews for.
+        :type customer_id: str
+        :return: A list of reviews submitted by the customer, or None if an error occurs.
+        :rtype: Optional[list[Review]]
+        """
+
         return self.get_reviews(customer_id=customer_id)
 
     def delete_review(self, item_id: int, customer_id: str) -> Optional[bool]:
+        """
+        Deletes a review based on item and customer IDs.
+
+        :param item_id: The ID of the item being reviewed.
+        :type item_id: int
+        :param customer_id: The ID of the customer who submitted the review.
+        :type customer_id: str
+        :return: True if the review was deleted successfully, False otherwise.
+        :rtype: Optional[bool]
+        """
+
         try:
             logger.info(f"Deleting {customer_id}'s review of item {item_id}")
             result = (

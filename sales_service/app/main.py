@@ -1,5 +1,4 @@
-from app.database import get_purchases
-from app.service import process_purchase
+from service import process_purchase, get_purchases
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
@@ -7,33 +6,32 @@ app = FastAPI()
 
 @app.get("/api/v1/sales/get")
 def fetch_all_purchases():
-    try:
-        purchases = get_purchases()
-        return [
-            {
-                "id": purchase["id"],
-                "good_id": purchase["good_id"],
-                "user_id": purchase["user_id"],
-                "amount_deducted": purchase["amount_deducted"],
-                "time": purchase["time"],
-            }
-            for purchase in purchases
-        ]
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    """
+    Fetches all purchase records from the database.
 
+    :return: A list of purchase records.
+    :rtype: List[dict]
+    """
 
-@app.post("/api/v1/sales/purchase")
+    return get_purchases()
+
+@app.post("/api/v1/sales/purchase/{customer_username}/{good_id}")
 def purchase_good(customer_username: str, good_id: int):
+    """
+    Processes the purchase of a good by a customer.
+
+    :param customer_username: The username of the customer making the purchase.
+    :type customer_username: str
+    :param good_id: The ID of the good being purchased.
+    :type good_id: int
+    :return: A confirmation of the successful purchase or an error message.
+    :rtype: dict
+    :raises HTTPException: If a ValueError occurs (status code 400) or a general exception occurs (status code 500).
+    """
+
     try:
         return process_purchase(customer_username, good_id)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)

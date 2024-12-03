@@ -10,6 +10,26 @@ CustomerRole = Literal["customer", "moderator", "admin"]
 
 
 class Customer(BaseModel):
+    """
+    Model representing a customer.
+
+    :param name: Full name of the customer.
+    :type name: str
+    :param username: Unique username for the customer.
+    :type username: str
+    :param password: Password for the customer account.
+    :type password: str
+    :param age: Age of the customer (must be non-negative).
+    :type age: int
+    :param address: Address of the customer.
+    :type address: str
+    :param gender: Gender of the customer (e.g., True for male, False for female).
+    :type gender: bool
+    :param marital_status: Marital status of the customer.
+    :type marital_status: MaritalStatus
+    :param role: Role of the customer (e.g., 'customer', 'moderator', 'admin').
+    :type role: CustomerRole
+    """
     name: str
     username: str
     password: str
@@ -21,12 +41,42 @@ class Customer(BaseModel):
 
 
 class Wallet(BaseModel):
+    """
+    Model representing a wallet.
+
+    :param customer_id: ID of the customer owning the wallet.
+    :type customer_id: str
+    :param amount: Wallet balance (must be non-negative).
+    :type amount: float
+    :param last_updated: Timestamp of the last update to the wallet balance.
+    :type last_updated: Optional[str]
+    """
+
     customer_id: str
     amount: float = Field(..., ge=0)
     last_updated: Optional[str] = None  # Automatically converted to datetime
 
 
 class CustomerRegisterRequestSchema(BaseModel):
+    """
+    Schema for customer registration requests.
+
+    :param name: Full name of the customer.
+    :type name: str
+    :param username: Unique username for the customer.
+    :type username: str
+    :param password: Password for the customer account.
+    :type password: str
+    :param age: Age of the customer (must be non-negative).
+    :type age: int
+    :param address: Address of the customer.
+    :type address: str
+    :param gender: Gender of the customer.
+    :type gender: bool
+    :param marital_status: Marital status of the customer.
+    :type marital_status: MaritalStatus
+    """
+
     name: str
     username: str
     password: str
@@ -37,11 +87,35 @@ class CustomerRegisterRequestSchema(BaseModel):
 
 
 class CustomerLoginSchema(BaseModel):
+    """
+    Schema for customer login requests.
+
+    :param username: The unique username of the customer.
+    :type username: str
+    :param password: The password for the customer's account.
+    :type password: str
+    """
+
     username: str
     password: str
 
 
 class CustomerUpdateSchema(BaseModel):
+    """
+    Schema for updating customer information.
+
+    :param name: The new full name of the customer.
+    :type name: Optional[str]
+    :param age: The new age of the customer. Must be a positive integer.
+    :type age: Optional[PositiveInt]
+    :param address: The new physical address of the customer.
+    :type address: Optional[str]
+    :param gender: The new gender of the customer. True for male, False for female.
+    :type gender: Optional[bool]
+    :param marital_status: The new marital status of the customer.
+    :type marital_status: Optional[MaritalStatus]
+    """
+
     name: Optional[str] = None
     age: Optional[PositiveInt] = None  # Optional positive integer
     address: Optional[str] = None
@@ -52,6 +126,17 @@ class CustomerUpdateSchema(BaseModel):
 class BaseCustomResponse(JSONResponse):
     """
     Base response class to handle shared logic for custom responses.
+
+    :param status_code: The HTTP status code.
+    :type status_code: int
+    :param message: A descriptive message about the response.
+    :type message: str
+    :param data: The payload of the response, if any.
+    :type data: Optional[Any]
+    :param notes: Additional notes regarding the response.
+    :type notes: Optional[str]
+    :param errors: Error details, if any.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -62,6 +147,21 @@ class BaseCustomResponse(JSONResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the BaseCustomResponse.
+
+        :param status_code: The HTTP status code.
+        :type status_code: int
+        :param message: A descriptive message.
+        :type message: str
+        :param data: The response payload. Defaults to None.
+        :type data: Optional[Any]
+        :param notes: Additional notes. Defaults to None.
+        :type notes: Optional[str]
+        :param errors: Error details. Defaults to None.
+        :type errors: Optional[str]
+        """
+
         content = {"message": message}
         if data is not None:
             content["data"] = data
@@ -74,7 +174,16 @@ class BaseCustomResponse(JSONResponse):
 
 class CustomerRegisterResponse(BaseCustomResponse):
     """
-    Response for customer registration.
+    Response for customer registration operations.
+
+    :param status_code: The HTTP status code of the response.
+    :type status_code: int
+    :param register_schema: The schema containing registration details.
+    :type register_schema: BaseModel
+    :param notes: Additional notes.
+    :type notes: Optional[str]
+    :param errors: Error details.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -84,6 +193,12 @@ class CustomerRegisterResponse(BaseCustomResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the CustomerRegisterResponse.
+
+        :raises ValueError: If an unexpected status code is provided.
+        """
+
         if status_code == status.HTTP_201_CREATED:
             message = f"Registered '{register_schema.username}' successfully"
 
@@ -105,7 +220,16 @@ class CustomerRegisterResponse(BaseCustomResponse):
 
 class CustomerDeleteResponse(BaseCustomResponse):
     """
-    Response for customer deletion.
+    Response for customer deletion operations.
+
+    :param status_code: The HTTP status code of the response.
+    :type status_code: int
+    :param customer_id: The ID of the customer being deleted.
+    :type customer_id: str
+    :param notes: Additional notes.
+    :type notes: Optional[str]
+    :param errors: Error details.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -115,6 +239,12 @@ class CustomerDeleteResponse(BaseCustomResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the CustomerDeleteResponse.
+
+        :raises ValueError: If an unexpected status code is provided.
+        """
+
         if status_code == status.HTTP_200_OK:
             message = f"Deleted '{customer_id}' successfully"
         elif status_code == status.HTTP_400_BAD_REQUEST:
@@ -133,7 +263,18 @@ class CustomerDeleteResponse(BaseCustomResponse):
 
 class CustomerUpdateResponse(BaseCustomResponse):
     """
-    Response for customer updates.
+    Response for customer update operations.
+
+    :param status_code: The HTTP status code of the response.
+    :type status_code: int
+    :param customer_id: The ID of the customer being updated.
+    :type customer_id: str
+    :param updated_customer: The updated customer data.
+    :type updated_customer: Optional[BaseModel]
+    :param notes: Additional notes.
+    :type notes: Optional[str]
+    :param errors: Error details.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -144,6 +285,12 @@ class CustomerUpdateResponse(BaseCustomResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the CustomerUpdateResponse.
+
+        :raises ValueError: If an unexpected status code is provided or if updated_customer is missing for 200 OK.
+        """
+
         if status_code == status.HTTP_200_OK:
             if updated_customer is None:
                 raise ValueError(
@@ -175,6 +322,19 @@ class CustomerUpdateResponse(BaseCustomResponse):
 class CustomerGetResponse(BaseCustomResponse):
     """
     Response for retrieving customer information.
+
+    :param status_code: The HTTP status code of the response.
+    :type status_code: int
+    :param customer_id: The ID of the customer being retrieved.
+    :type customer_id: str
+    :param customer: The customer data.
+    :type customer: Optional[BaseModel]
+    :param wallet: The wallet data.
+    :type wallet: Optional[BaseModel]
+    :param notes: Additional notes.
+    :type notes: Optional[str]
+    :param errors: Error details, if any.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -186,6 +346,12 @@ class CustomerGetResponse(BaseCustomResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the CustomerGetResponse.
+
+        :raises ValueError: If an unexpected status code is provided or if customer data is missing for 200 OK.
+        """
+
         if status_code == status.HTTP_200_OK:
             if customer is None:
                 raise ValueError("Customer data must be provided for a 200 OK status")
@@ -211,7 +377,20 @@ class CustomerGetResponse(BaseCustomResponse):
 
 class WalletChargeResponse(BaseCustomResponse):
     """
-    Response for wallet charge operation.
+    Response for wallet charge operations.
+
+    :param status_code: The HTTP status code of the response.
+    :type status_code: int
+    :param customer_id: The ID of the customer whose wallet is being charged.
+    :type customer_id: str
+    :param amount: The amount being added to the wallet.
+    :type amount: float
+    :param new_balance: The new wallet balance after the charge.
+    :type new_balance: Optional[float]
+    :param notes: Additional notes, if any.
+    :type notes: Optional[str]
+    :param errors: Error details, if any.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -223,6 +402,13 @@ class WalletChargeResponse(BaseCustomResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the WalletChargeResponse.
+
+        :raises ValueError: If an unexpected status code is provided.
+        """
+
+
         data: Optional[dict[str, float]] = None
 
         if status_code == status.HTTP_200_OK:
@@ -247,7 +433,20 @@ class WalletChargeResponse(BaseCustomResponse):
 
 class WalletDeductResponse(BaseCustomResponse):
     """
-    Response for wallet deduction operation.
+    Response for wallet deduction operations.
+
+    :param status_code: The HTTP status code of the response.
+    :type status_code: int
+    :param customer_id: The ID of the customer whose wallet is being deducted.
+    :type customer_id: str
+    :param amount: The amount being deducted from the wallet.
+    :type amount: float
+    :param new_balance: The new wallet balance after the deduction.
+    :type new_balance: Optional[float]
+    :param notes: Additional notes, if any.
+    :type notes: Optional[str]
+    :param errors: Error details, if any.
+    :type errors: Optional[str]
     """
 
     def __init__(
@@ -259,6 +458,12 @@ class WalletDeductResponse(BaseCustomResponse):
         notes: Optional[str] = None,
         errors: Optional[str] = None,
     ):
+        """
+        Initializes the WalletDeductResponse.
+
+        :raises ValueError: If an unexpected status code is provided.
+        """
+
         data: Optional[dict[str, str | int | float]] = None
         if status_code == status.HTTP_200_OK:
             message = f"{amount} deducted from wallet for customer '{customer_id}'"

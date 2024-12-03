@@ -35,6 +35,15 @@ db: ReviewTable = ReviewTable(
 
 @router.post("/submit")
 async def submit_review(review: PostReviewRequest):
+    """
+    Submits a review for an item.
+
+    :param review: The review details.
+    :type review: PostReviewRequest
+    :return: Response containing the submission status.
+    :rtype: PostReviewResponse
+    """
+
     try:
 
         status_customer_and_item: int = db.customer_and_item_exist(
@@ -71,6 +80,15 @@ async def submit_review(review: PostReviewRequest):
 
 @router.put("/update")
 async def update_review(updated_review: PutReviewRequest):
+    """
+    Updates an existing review.
+
+    :param updated_review: The updated review details.
+    :type updated_review: PutReviewRequest
+    :return: Response containing the update status.
+    :rtype: PutReviewResponse
+    """
+
     try:
         stored_review: Optional[list[Review]] = db.get_review(
             item_id=updated_review.item_id, customer_id=updated_review.customer_id
@@ -111,6 +129,17 @@ async def update_review(updated_review: PutReviewRequest):
 
 @router.delete("/delete")
 async def delete_review(customer_id: str, item_id: int):
+    """
+    Deletes a review.
+
+    :param customer_id: The ID of the customer who submitted the review.
+    :type customer_id: str
+    :param item_id: The ID of the item being reviewed.
+    :type item_id: int
+    :return: Response containing the deletion status.
+    :rtype: DeleteReviewResponse
+    """
+
     try:
 
         if not db.get_review(item_id=item_id, customer_id=customer_id):
@@ -139,6 +168,17 @@ async def delete_review(customer_id: str, item_id: int):
 async def get_generic_review(
     item_id: Optional[int] = None, customer_id: Optional[str] = None
 ) -> GetReviewsResponse:
+    """
+    Retrieves reviews based on the provided filters.
+
+    :param item_id: The ID of the item to filter reviews by (optional).
+    :type item_id: Optional[int]
+    :param customer_id: The ID of the customer to filter reviews by (optional).
+    :type customer_id: Optional[str]
+    :return: A response containing the retrieved reviews.
+    :rtype: GetReviewsResponse
+    """
+
     assert item_id or customer_id, "Invalid Call"
     try:
         filters: dict = {}
@@ -173,24 +213,59 @@ async def get_generic_review(
 
 @router.get("/item/{item_id}")
 async def get_item_review(item_id: int):
-    # Get From Database
+    """
+    Retrieves reviews for a specific item.
+
+    :param item_id: The ID of the item.
+    :type item_id: int
+    :return: A response containing the retrieved reviews.
+    :rtype: GetReviewsResponse
+    """
     return await get_generic_review(item_id=item_id)
 
 
 @router.get("/customer/{customer_id}")
 async def get_customer_review(customer_id: str):
+    """
+    Retrieves all reviews submitted by a specific customer.
+
+    :param customer_id: The ID of the customer whose reviews to retrieve.
+    :type customer_id: str
+    :return: A response containing the retrieved reviews.
+    :rtype: GetReviewsResponse
+    """
+
     return await get_generic_review(customer_id=customer_id)
 
 
 @router.get("/details")
 async def get_details(customer_id: str, item_id: int):
-    # Get from database
+    """
+    Retrieves details of a specific review based on the customer and item IDs.
+
+    :param customer_id: The ID of the customer who submitted the review.
+    :type customer_id: str
+    :param item_id: The ID of the item being reviewed.
+    :type item_id: int
+    :return: A response containing the review details.
+    :rtype: GetReviewsResponse
+    """
+
     return await get_generic_review(item_id=item_id, customer_id=customer_id)
 
 
 @router.post("/auth/login")
 async def login(credentials: LoginRequest):
-    # Update Database
+    """
+    Authenticates a user and generates a JWT token.
+
+    :param credentials: The login credentials (username and password).
+    :type credentials: LoginRequest
+    :return: A response containing the JWT token if login is successful.
+    :rtype: BaseCustomResponse
+    :raises HTTPException: If the username or password is invalid or if an error occurs.
+    """
+
     try:
         user = (
             db.client.table("customer")
@@ -225,7 +300,22 @@ async def moderate(
     new_flag: Literal["flagged", "approved", "needs_approval"],
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
-    # Update Database
+    """
+    Moderates a review by updating its flagged status.
+
+    :param customer_id: The ID of the customer who submitted the review.
+    :type customer_id: str
+    :param item_id: The ID of the item being reviewed.
+    :type item_id: int
+    :param new_flag: The new flag status for the review. Must be one of ["flagged", "approved", "needs_approval"].
+    :type new_flag: Literal["flagged", "approved", "needs_approval"]
+    :param credentials: The authentication credentials of the moderator.
+    :type credentials: HTTPAuthorizationCredentials
+    :return: A response indicating the success or failure of the moderation operation.
+    :rtype: ModerateReviewsResponse
+    :raises HTTPException: If the user does not have the necessary permissions or if an error occurs.
+    """
+
     try:
         user: dict | str = decode_access_token(credentials.credentials)
         print(user)

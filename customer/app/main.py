@@ -35,6 +35,14 @@ router = APIRouter(prefix="/customer", tags=["Customer Management"])
 async def register_customer(
     customer: CustomerRegisterRequestSchema,
 ) -> CustomerRegisterResponse:
+    """
+    Registers a new customer.
+
+    :param customer: The customer registration details.
+    :type customer: CustomerRegisterRequestSchema
+    :return: Response object containing registration status and details.
+    :rtype: CustomerRegisterResponse
+    """
     try:
 
         if db.get_user(user_id=customer.username):
@@ -56,6 +64,14 @@ async def register_customer(
 
 @router.delete("/delete/{customer_id}")
 async def delete_customer(customer_id: str):
+    """
+    Deletes a customer by their ID.
+
+    :param customer_id: The ID of the customer to delete.
+    :type customer_id: str
+    :return: Response object containing deletion status.
+    :rtype: CustomerDeleteResponse
+    """
     try:
         if not db.get_user(user_id=customer_id):
             return CustomerDeleteResponse(status_code=404, customer_id=customer_id)
@@ -73,6 +89,16 @@ async def delete_customer(customer_id: str):
 
 @router.put("/update/{customer_id}")
 async def update_customer(customer_id: str, updates: CustomerUpdateSchema):
+    """
+    Updates a customer's information.
+
+    :param customer_id: The ID of the customer to update.
+    :type customer_id: str
+    :param updates: The updates to apply to the customer.
+    :type updates: CustomerUpdateSchema
+    :return: Response object containing update status and updated data.
+    :rtype: CustomerUpdateResponse
+    """
     try:
         stored_customer: Optional[list[Customer]] = db.get_user(user_id=customer_id)
         if not db.get_user(user_id=customer_id):
@@ -111,6 +137,12 @@ async def update_customer(customer_id: str, updates: CustomerUpdateSchema):
 
 @router.get("/get")
 async def get_all_customers():
+    """
+    Retrieves all customers from the database.
+
+    :return: JSON object containing all customers or an error message.
+    :rtype: JSONResponse
+    """
     try:
         # data: list[dict] = list(
         #     map(lambda user: {user.username: user.model_dump()}, customers.values())
@@ -128,6 +160,14 @@ async def get_all_customers():
 
 @router.get("/get/{customer_id}")
 async def get_customer(customer_id: str):
+    """
+    Retrieves a customer's details by their ID.
+
+    :param customer_id: The ID of the customer to retrieve.
+    :type customer_id: str
+    :return: Response object containing customer details and wallet info.
+    :rtype: CustomerGetResponse
+    """
     try:
         customer: Optional[list[Customer]] = db.get_user(user_id=customer_id)
         if not customer:
@@ -153,6 +193,16 @@ async def get_customer(customer_id: str):
 
 @router.put("/wallet/{customer_id}/charge")
 async def charge_wallet(customer_id: str, amount: float = Body(..., ge=0)):
+    """
+    Charges a customer's wallet by a specified amount.
+
+    :param customer_id: The ID of the customer whose wallet to charge.
+    :type customer_id: str
+    :param amount: The amount to add to the wallet. Must be non-negative.
+    :type amount: float
+    :return: Response object containing new wallet balance or error.
+    :rtype: WalletChargeResponse
+    """
     try:
         customer_wallet: list[Wallet] = db.get_wallet(user_id=customer_id)
         if customer_wallet is None:
@@ -186,6 +236,16 @@ async def charge_wallet(customer_id: str, amount: float = Body(..., ge=0)):
 
 @router.put("/wallet/{customer_id}/deduct")
 async def deduct_wallet(customer_id: str, amount: float = Body(..., ge=0)):
+    """
+    Deducts a specified amount from a customer's wallet.
+
+    :param customer_id: The ID of the customer whose wallet to deduct from.
+    :type customer_id: str
+    :param amount: The amount to deduct from the wallet. Must be non-negative.
+    :type amount: float
+    :return: Response object containing new wallet balance or error.
+    :rtype: WalletDeductResponse
+    """
     try:
         customer_wallet: list[Wallet] = db.get_wallet(user_id=customer_id)
         if customer_wallet is None:
