@@ -1,10 +1,12 @@
 import os
 from typing import List
-from loguru import logger
-from dotenv import load_dotenv
+
 from app.models import Purchase
-from supabase import Client, create_client
+from dotenv import load_dotenv
+from loguru import logger
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
+from supabase import Client, create_client
+
 
 class SalesTable:
     """
@@ -42,15 +44,20 @@ class SalesTable:
 
         logger.info(f"Adding {purchase.model_dump()}")
         try:
-            response = self.client.table("purchases").insert(purchase.model_dump(exclude={'time'})).execute()
+            response = self.table.insert(
+                purchase.model_dump(exclude={"time"})
+            ).execute()
             logger.info(response)
 
             if not response.data:
-                raise Exception(f"Failed to record purchase: {response.error.message}")
+                error_message = (
+                    response.error.message if response.error else "Unknown error"
+                )
+                raise Exception(f"Failed to record purchase: {error_message}")
             return response.data
         except Exception as e:
             logger.exception(e)
-
+            raise
 
     def get_purchases(self) -> List[dict]:
         """
@@ -62,8 +69,13 @@ class SalesTable:
         :notes: Logs any exceptions encountered during the database query.
         """
 
-        response = self.client.table("purchases").select("*").execute()
+        try:
+            response = self.table.select("*").execute()
 
-        if not response.data:
-            raise Exception(f"Failed to fetch purchases: {response.error.message}")
-        return response.data or []  # return empty list if no records found
+            if not response:
+                
+                raise Exception(f"Failed to fetch purchases")
+            return response.data or []  # return empty list if no records found
+        except Exception as e:
+            logger.exception(e)
+            raise  # Re-raise the exception

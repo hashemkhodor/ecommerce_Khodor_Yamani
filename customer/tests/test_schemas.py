@@ -1,23 +1,22 @@
-import pytest
-from fastapi import status
-from pydantic import ValidationError
-from datetime import datetime
 import json
+from datetime import datetime
 
-
+import pytest
 from app.schemas import (
     Customer,
-    Wallet,
-    CustomerRegisterRequestSchema,
-    CustomerLoginSchema,
-    CustomerUpdateSchema,
-    CustomerRegisterResponse,
     CustomerDeleteResponse,
-    CustomerUpdateResponse,
     CustomerGetResponse,
+    CustomerLoginSchema,
+    CustomerRegisterRequestSchema,
+    CustomerRegisterResponse,
+    CustomerUpdateResponse,
+    CustomerUpdateSchema,
+    Wallet,
     WalletChargeResponse,
     WalletDeductResponse,
 )
+from fastapi import status
+from pydantic import ValidationError
 
 
 # Test Customer Model
@@ -121,8 +120,8 @@ def test_customer_register_response_conflict():
     )
     assert response.status_code == status.HTTP_409_CONFLICT
     assert (
-            response.body.decode()
-            == '{"message":"Customer with username \'janedoe\' already exists"}'
+        response.body.decode()
+        == '{"message":"Customer with username \'janedoe\' already exists"}'
     )
 
 
@@ -144,7 +143,9 @@ def test_wallet_charge_response_not_found():
         status_code=status.HTTP_404_NOT_FOUND, customer_id="123", amount=50.0
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.body.decode() == '{"message":"Wallet for customer \'123\' not found"}'
+    assert (
+        response.body.decode() == '{"message":"Wallet for customer \'123\' not found"}'
+    )
 
 
 def test_wallet_deduct_response_insufficient_funds():
@@ -155,7 +156,6 @@ def test_wallet_deduct_response_insufficient_funds():
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.body.decode() == '{"message":"Insufficient funds in wallet"}'
-
 
 
 def test_customer_update_response_success():
@@ -182,7 +182,7 @@ def test_customer_update_response_success():
             "age": 40,
             "address": "789 Pine St",
             "gender": None,
-            "marital_status": None
+            "marital_status": None,
         },
     }
 

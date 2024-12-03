@@ -1,12 +1,11 @@
 import os
 from typing import Optional
 
+from app.schemas import Customer, Wallet
 from dotenv import load_dotenv
 from loguru import logger
 from postgrest import SyncRequestBuilder
 from supabase import Client, create_client
-
-from app.schemas import Customer, Wallet
 
 
 class CustomerTable:
@@ -196,14 +195,14 @@ class CustomerTable:
     def charge_wallet(self, user_id: str, amount: float) -> Optional[list[Wallet]]:
         """
         Charges a customer's wallet by adding a specified amount.
-    
+
         Args:
             user_id (str): The customer's ID.
             amount (float): The amount to add to the wallet. Must be non-negative.
-    
+
         Returns:
             Optional[list[Wallet]]: The updated wallet details as a list, or None if an exception occurred.
-        
+
         Raises:
             AssertionError: If the amount is not a float or is negative.
         """

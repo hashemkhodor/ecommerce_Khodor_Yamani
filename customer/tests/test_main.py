@@ -1,16 +1,17 @@
 # test_main.py
 
+from unittest.mock import MagicMock, patch
+
 import pytest
-from fastapi.testclient import TestClient
-from unittest.mock import patch, MagicMock
 from app.main import app
+from app.models import CustomerTable
 from app.schemas import (
+    Customer,
     CustomerRegisterRequestSchema,
     CustomerUpdateSchema,
-    Customer,
     Wallet,
 )
-from app.models import CustomerTable
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
@@ -49,7 +50,7 @@ def test_register_customer_success(mock_db):
 
     # Get the customer argument from keyword arguments
     called_args, called_kwargs = mock_db.create_customer.call_args
-    created_customer = called_kwargs['customer']
+    created_customer = called_kwargs["customer"]
 
     assert created_customer.username == customer_data["username"]
     assert created_customer.role == "customer"
@@ -113,7 +114,9 @@ def test_register_customer_failure(mock_db):
 
     # Assert
     assert response.status_code == 400
-    assert response.json()["message"] == f"Failed to register {customer_data['username']}"
+    assert (
+        response.json()["message"] == f"Failed to register {customer_data['username']}"
+    )
     mock_db.get_user.assert_called_once_with(user_id=customer_data["username"])
     mock_db.create_customer.assert_called_once()
 
@@ -450,7 +453,9 @@ def test_get_customer_success(mock_db):
 
     # Assert
     assert response.status_code == 200
-    assert response.json()["message"] == f"Retrieved customer '{customer_id}' successfully"
+    assert (
+        response.json()["message"] == f"Retrieved customer '{customer_id}' successfully"
+    )
     assert response.json()["data"] == {
         "user": customer.model_dump(),
         "wallet": wallet.model_dump(),
@@ -536,8 +541,7 @@ def test_charge_wallet_not_found(mock_db):
     # Assert
     assert response.status_code == 404
     assert (
-        response.json()["message"]
-        == f"Wallet for customer '{customer_id}' not found"
+        response.json()["message"] == f"Wallet for customer '{customer_id}' not found"
     )
     mock_db.get_wallet.assert_called_once_with(user_id=customer_id)
     mock_db.charge_wallet.assert_not_called()

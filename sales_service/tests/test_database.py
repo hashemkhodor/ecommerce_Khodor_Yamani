@@ -1,88 +1,115 @@
-import pytest
-from unittest.mock import patch, MagicMock
-from typing import List
+from unittest.mock import MagicMock, patch
 
-# from app.models import Purchase
-from app.database import record_purchase, get_purchases
+import pytest
+from app.database import SalesTable
+from app.models import Purchase
 
 
 @pytest.fixture
-def mock_supabase_client():
-    with patch('database.supabase') as mock_client:
-        yield mock_client
+def mock_client():
+    # Mock the Supabase client and table
+    client_mock = MagicMock()
+    table_mock = MagicMock()
+    client_mock.table.return_value = table_mock
+    return client_mock
 
 
-def test_record_purchase_success(mock_supabase_client):
-    """Test that record_purchase successfully records a purchase."""
-    mock_response = MagicMock()
-    mock_response.error = None
-    mock_response.data = {'id': 1}
-    mock_supabase_client.table.return_value.insert.return_value.execute.return_value = mock_response
-
-    purchase = Purchase(good_id=1, customer_id='cust123', amount_deducted=100.0)
-    result = record_purchase(purchase)
-
-    assert result == mock_response.data
-    mock_supabase_client.table.assert_called_with("purchases")
-    mock_supabase_client.table.return_value.insert.assert_called_with(purchase.model_dump())
+@pytest.fixture
+def mock_sales_table(mock_client):
+    # Patch the `create_client` function to return our mock client
+    with patch("app.database.create_client", return_value=mock_client):
+        sales_table = SalesTable("test_url", "test_key")
+    return sales_table
 
 
-def test_record_purchase_failure(mock_supabase_client):
-    """Test that record_purchase raises an exception when Supabase returns an error."""
-    mock_error = MagicMock()
-    mock_error.message = "Database error"
-    mock_response = MagicMock()
-    mock_response.error = mock_error
-    mock_response.data = None
-    mock_supabase_client.table.return_value.insert.return_value.execute.return_value = mock_response
+def test_record_purchase_success(mock_sales_table, mock_client):
+    # Arrange
+    purchase = Purchase(
+        good_id=101, customer_id="C001", amount_deducted=99.99, time=None
+    )
+    mock_execute = MagicMock(return_value=MagicMock(data={"id": 1}, error=None))
+    mock_sales_table.table.insert.return_value.execute = mock_execute
 
-    purchase = Purchase(good_id=1, customer_id='cust123', amount_deducted=100.0)
+    # Act
+    result = mock_sales_table.record_purchase(purchase)
 
-    with pytest.raises(Exception) as exc_info:
-        record_purchase(purchase)
-    assert str(exc_info.value) == f"Failed to record purchase: {mock_error.message}"
+    # Assert
+    mock_sales_table.table.insert.assert_called_once_with(
+        purchase.model_dump(exclude={"time"})
+    )
+    mock_execute.assert_called_once()
+    assert result == {"id": 1}
 
 
-def test_get_purchases_success(mock_supabase_client):
-    """Test that get_purchases returns a list of purchases when successful."""
-    mock_response = MagicMock()
-    mock_response.error = None
-    mock_response.data = [
-        {'id': 1, 'good_id': 1, 'customer_id': 'cust123', 'amount_deducted': 100.0, 'time': '2023-01-01T00:00:00Z'},
-        {'id': 2, 'good_id': 2, 'customer_id': 'cust456', 'amount_deducted': 50.0, 'time': '2023-01-02T00:00:00Z'},
+def test_record_purchase_failure(mock_sales_table, mock_client):
+    # Arrange
+    purchase = Purchase(
+        good_id=101, customer_id="C001", amount_deducted=99.99, time=None
+    )
+    mock_execute = MagicMock(
+        return_value=MagicMock(data=None, error=MagicMock(message="Insert error"))
+    )
+    mock_sales_table.table.insert.return_value.execute = mock_execute
+
+    # Act & Assert
+    with pytest.raises(Exception, match="Failed to record purchase: Insert error"):
+        mock_sales_table.record_purchase(purchase)
+
+
+def test_get_purchases_success(mock_sales_table, mock_client):
+    # Arrange
+    mock_execute = MagicMock(
+        return_value=MagicMock(
+            data=[
+                {
+                    "good_id": 101,
+                    "customer_id": "C001",
+                    "amount_deducted": 99.99,
+                    "time": "2023-12-01T10:00:00",
+                }
+            ],
+            error=None,
+        )
+    )
+    mock_sales_table.table.select.return_value.execute = mock_execute
+
+    # Act
+    result = mock_sales_table.get_purchases()
+
+    # Assert
+    mock_sales_table.table.select.assert_called_once_with("*")
+    mock_execute.assert_called_once()
+    assert result == [
+        {
+            "good_id": 101,
+            "customer_id": "C001",
+            "amount_deducted": 99.99,
+            "time": "2023-12-01T10:00:00",
+        }
     ]
-    mock_supabase_client.table.return_value.select.return_value.execute.return_value = mock_response
-
-    result = get_purchases()
-
-    assert result == mock_response.data
-    mock_supabase_client.table.assert_called_with("purchases")
-    mock_supabase_client.table.return_value.select.assert_called_with("*")
 
 
-def test_get_purchases_no_data(mock_supabase_client):
-    """Test that get_purchases returns an empty list when no data is found."""
-    mock_response = MagicMock()
-    mock_response.error = None
-    mock_response.data = None
-    mock_supabase_client.table.return_value.select.return_value.execute.return_value = mock_response
+def test_get_purchases_no_records(mock_sales_table, mock_client):
+    # Arrange
+    mock_execute = MagicMock(return_value=MagicMock(data=[], error=None))
+    mock_sales_table.table.select.return_value.execute = mock_execute
 
-    result = get_purchases()
+    # Act
+    result = mock_sales_table.get_purchases()
 
+    # Assert
+    mock_sales_table.table.select.assert_called_once_with("*")
+    mock_execute.assert_called_once()
     assert result == []
-    mock_supabase_client.table.assert_called_with("purchases")
-    mock_supabase_client.table.return_value.select.assert_called_with("*")
 
 
-def test_get_purchases_failure(mock_supabase_client):
-    """Test that get_purchases raises an exception when Supabase returns an error."""
-    mock_error = MagicMock()
-    mock_error.message = "Database error"
-    mock_response = MagicMock()
-    mock_response.error = mock_error
-    mock_response.data = None
-    mock_supabase_client.table.return_value.select.return_value.execute.return_value = mock_response
+def test_get_purchases_failure(mock_sales_table, mock_client):
+    # Arrange
+    mock_execute = MagicMock(
+        return_value=MagicMock(data=None, error=MagicMock(message="Select error"))
+    )
+    mock_sales_table.table.select.return_value.execute = mock_execute
 
-    with pytest.raises(Exception) as exc_info:
-        get_purchases()
-    assert str(exc_info.value) == f"Failed to fetch purchases: {mock_error.message}"
+    # Act & Assert
+    with pytest.raises(Exception, match="Failed to fetch purchases: Select error"):
+        mock_sales_table.get_purchases()

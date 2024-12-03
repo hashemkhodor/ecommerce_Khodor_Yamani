@@ -1,11 +1,6 @@
 import os
 from typing import Optional
 
-from dotenv import load_dotenv
-from fastapi import APIRouter, Body, FastAPI
-from fastapi.responses import JSONResponse
-from loguru import logger
-
 from app.models import CustomerTable
 from app.schemas import (
     Customer,
@@ -19,6 +14,10 @@ from app.schemas import (
     WalletChargeResponse,
     WalletDeductResponse,
 )
+from dotenv import load_dotenv
+from fastapi import APIRouter, Body, FastAPI
+from fastapi.responses import JSONResponse
+from loguru import logger
 
 load_dotenv()
 

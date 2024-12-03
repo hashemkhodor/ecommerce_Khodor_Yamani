@@ -73,8 +73,8 @@ class PutReviewRequest(BaseModel):
 
     customer_id: str
     item_id: int
-    rating: Optional[int] = Field(None,
-                                  ge=0, le=5, description="Rating must be between 1 and 5"
+    rating: Optional[int] = Field(
+        None, ge=0, le=5, description="Rating must be between 1 and 5"
     )
     comment: Optional[str] = None
 

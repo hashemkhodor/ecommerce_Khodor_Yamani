@@ -1,12 +1,6 @@
 import os
 from typing import Literal, Optional
 
-from dotenv import load_dotenv
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from loguru import logger
-from starlette import status
-
 from app.auth import create_access_token, decode_access_token
 from app.models import ReviewTable
 from app.schemas import (
@@ -21,6 +15,11 @@ from app.schemas import (
     PutReviewResponse,
     Review,
 )
+from dotenv import load_dotenv
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from loguru import logger
+from starlette import status
 
 security = HTTPBearer()
 # Define router
@@ -100,7 +99,9 @@ async def update_review(updated_review: PutReviewRequest):
 
         updated_data = stored_review[0].model_dump()
         if updated_review.model_dump(exclude_unset=True).items():
-            for _key, value in updated_review.model_dump(exclude_unset=True, exclude_none=True).items():
+            for _key, value in updated_review.model_dump(
+                exclude_unset=True, exclude_none=True
+            ).items():
                 updated_data[_key] = value
         else:
             return PutReviewResponse(
