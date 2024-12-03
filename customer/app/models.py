@@ -22,9 +22,10 @@ class CustomerTable:
         """
         Initializes the CustomerTable with a Supabase client.
 
-        Args:
-            url (str): The Supabase URL.
-            key (str): The Supabase key.
+        :param url: The Supabase URL.
+        :type url: str
+        :param key: The Supabase key.
+        :type key: str
         """
         self.client: Client = create_client(url, key)
         self.table: SyncRequestBuilder = self.client.table("customer")
@@ -70,11 +71,9 @@ class CustomerTable:
         """
         Retrieves a list of users based on specified filters.
 
-        Args:
-            **filters: Key-value pairs to filter users (e.g., role="customer").
-
-        Returns:
-            Optional[list[Customer]]: A list of matching users, or None if an exception occurred.
+        :param filters: Key-value pairs to filter users (e.g., role="customer").
+        :return: A list of matching users, or None if an exception occurred.
+        :rtype: Optional[list[Customer]]
         """
 
         try:
@@ -97,8 +96,8 @@ class CustomerTable:
         """
         Retrieves all customers.
 
-        Returns:
-            Optional[list[Customer]]: A list of customers, or None if an exception occurred.
+        :return: A list of customers, or None if an exception occurred.
+        :rtype: Optional[list[Customer]]
         """
 
         return self.get_users(role="customer")
@@ -107,11 +106,10 @@ class CustomerTable:
         """
         Retrieves a specific user by their ID.
 
-        Args:
-            user_id (str): The user's unique ID.
-
-        Returns:
-            Optional[list[Customer]]: The user details as a list, or None if not found.
+        :param user_id: The user's unique ID.
+        :type user_id: str
+        :return: The user details as a list, or None if not found.
+        :rtype: Optional[list[Customer]]
         """
 
         result: Optional[list[dict]] = self.get_users(username=user_id)
@@ -125,11 +123,10 @@ class CustomerTable:
         """
         Retrieves a customer's wallet.
 
-        Args:
-            user_id (str): The customer's ID.
-
-        Returns:
-            Optional[list[Wallet]]: The wallet details as a list, or None if an exception occurred.
+        :param user_id: The customer's ID.
+        :type user_id: str
+        :return: The wallet details as a list, or None if an exception occurred.
+        :rtype: Optional[list[Wallet]]
         """
 
         try:
@@ -182,16 +179,14 @@ class CustomerTable:
     def deduct_wallet(self, user_id: str, amount: float) -> Optional[list[Wallet]]:
         """
         Deducts a specified amount from a customer's wallet.
-    
-        Args:
-            user_id (str): The customer's ID.
-            amount (float): The amount to deduct from the wallet. Must be negative.
-    
-        Returns:
-            Optional[list[Wallet]]: The updated wallet details as a list, or None if an exception occurred.
-        
-        Raises:
-            AssertionError: If the amount is not a float or is not negative.
+
+        :param user_id: The customer's ID.
+        :type user_id: str
+        :param amount: The amount to deduct from the wallet. Must be negative.
+        :type amount: float
+        :return: The updated wallet details as a list, or None if an exception occurred.
+        :rtype: Optional[list[Wallet]]
+        :raises AssertionError: If the amount is not a float or is not negative.
         """
 
         assert isinstance(amount, float) and amount < 0, "Amount must be less than 0"
@@ -223,11 +218,10 @@ class CustomerTable:
         """
         Deletes a customer and their wallet.
 
-        Args:
-            user_id (str): The customer's ID.
-
-        Returns:
-            bool: True if the user and wallet were deleted successfully, False otherwise.
+        :param user_id: The customer's ID.
+        :type user_id: str
+        :return: True if the user and wallet were deleted successfully, False otherwise.
+        :rtype: bool
         """
 
         try:
@@ -250,15 +244,15 @@ class CustomerTable:
     ) -> Optional[list[Customer]]:
         """
         Updates the details of an existing customer.
-    
-        Args:
-            user_id (str): The ID of the customer to update.
-            new_customer (Customer): The updated customer details, excluding the username.
-    
-        Returns:
-            Optional[list[Customer]]: A list containing the updated customer details if successful,
-                                      an empty list if the user is not found,
-                                      or None if the update operation fails.
+
+        :param user_id: The ID of the customer to update.
+        :type user_id: str
+        :param new_customer: The updated customer details, excluding the username.
+        :type new_customer: Customer
+        :return: A list containing the updated customer details if successful,
+                 an empty list if the user is not found,
+                 or None if the update operation fails.
+        :rtype: Optional[list[Customer]]
         """
 
         if self.get_users(username=user_id) is None:

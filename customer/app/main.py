@@ -38,11 +38,10 @@ async def register_customer(
     """
     Registers a new customer.
 
-    Args:
-        customer (CustomerRegisterRequestSchema): The customer registration details.
-
-    Returns:
-        CustomerRegisterResponse: Response object containing registration status and details.
+    :param customer: The customer registration details.
+    :type customer: CustomerRegisterRequestSchema
+    :return: Response object containing registration status and details.
+    :rtype: CustomerRegisterResponse
     """
     try:
 
@@ -68,11 +67,10 @@ async def delete_customer(customer_id: str):
     """
     Deletes a customer by their ID.
 
-    Args:
-        customer_id (str): The ID of the customer to delete.
-
-    Returns:
-        CustomerDeleteResponse: Response object containing deletion status.
+    :param customer_id: The ID of the customer to delete.
+    :type customer_id: str
+    :return: Response object containing deletion status.
+    :rtype: CustomerDeleteResponse
     """
     try:
         if not db.get_user(user_id=customer_id):
@@ -94,12 +92,12 @@ async def update_customer(customer_id: str, updates: CustomerUpdateSchema):
     """
     Updates a customer's information.
 
-    Args:
-        customer_id (str): The ID of the customer to update.
-        updates (CustomerUpdateSchema): The updates to apply to the customer.
-
-    Returns:
-        CustomerUpdateResponse: Response object containing update status and updated data.
+    :param customer_id: The ID of the customer to update.
+    :type customer_id: str
+    :param updates: The updates to apply to the customer.
+    :type updates: CustomerUpdateSchema
+    :return: Response object containing update status and updated data.
+    :rtype: CustomerUpdateResponse
     """
     try:
         stored_customer: Optional[list[Customer]] = db.get_user(user_id=customer_id)
@@ -142,8 +140,8 @@ async def get_all_customers():
     """
     Retrieves all customers from the database.
 
-    Returns:
-        JSONResponse: JSON object containing all customers or an error message.
+    :return: JSON object containing all customers or an error message.
+    :rtype: JSONResponse
     """
     try:
         # data: list[dict] = list(
@@ -165,11 +163,10 @@ async def get_customer(customer_id: str):
     """
     Retrieves a customer's details by their ID.
 
-    Args:
-        customer_id (str): The ID of the customer to retrieve.
-
-    Returns:
-        CustomerGetResponse: Response object containing customer details and wallet info.
+    :param customer_id: The ID of the customer to retrieve.
+    :type customer_id: str
+    :return: Response object containing customer details and wallet info.
+    :rtype: CustomerGetResponse
     """
     try:
         customer: Optional[list[Customer]] = db.get_user(user_id=customer_id)
@@ -199,12 +196,12 @@ async def charge_wallet(customer_id: str, amount: float = Body(..., ge=0)):
     """
     Charges a customer's wallet by a specified amount.
 
-    Args:
-        customer_id (str): The ID of the customer whose wallet to charge.
-        amount (float): The amount to add to the wallet. Must be non-negative.
-
-    Returns:
-        WalletChargeResponse: Response object containing new wallet balance or error.
+    :param customer_id: The ID of the customer whose wallet to charge.
+    :type customer_id: str
+    :param amount: The amount to add to the wallet. Must be non-negative.
+    :type amount: float
+    :return: Response object containing new wallet balance or error.
+    :rtype: WalletChargeResponse
     """
     try:
         customer_wallet: list[Wallet] = db.get_wallet(user_id=customer_id)
@@ -242,12 +239,12 @@ async def deduct_wallet(customer_id: str, amount: float = Body(..., ge=0)):
     """
     Deducts a specified amount from a customer's wallet.
 
-    Args:
-        customer_id (str): The ID of the customer whose wallet to deduct from.
-        amount (float): The amount to deduct from the wallet. Must be non-negative.
-
-    Returns:
-        WalletDeductResponse: Response object containing new wallet balance or error.
+    :param customer_id: The ID of the customer whose wallet to deduct from.
+    :type customer_id: str
+    :param amount: The amount to deduct from the wallet. Must be non-negative.
+    :type amount: float
+    :return: Response object containing new wallet balance or error.
+    :rtype: WalletDeductResponse
     """
     try:
         customer_wallet: list[Wallet] = db.get_wallet(user_id=customer_id)
