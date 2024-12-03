@@ -4,9 +4,9 @@ from random import choice, randint, uniform
 from dotenv import load_dotenv
 from faker import Faker
 
-from customer.models import CustomerTable
-from customer.schemas import Customer
-from inventory_service.app.models import Category, Good
+from customer.app.models import CustomerTable
+from customer.app.schemas import Customer
+from inventory_service.app.models import Good
 
 
 def create_fake_customer() -> Customer:

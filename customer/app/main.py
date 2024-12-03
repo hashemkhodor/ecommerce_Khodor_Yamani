@@ -6,8 +6,8 @@ from fastapi import APIRouter, Body, FastAPI
 from fastapi.responses import JSONResponse
 from loguru import logger
 
-from customer.models import CustomerTable
-from customer.schemas import (
+from app.models import CustomerTable
+from app.schemas import (
     Customer,
     CustomerDeleteResponse,
     CustomerGetResponse,
@@ -19,9 +19,6 @@ from customer.schemas import (
     WalletChargeResponse,
     WalletDeductResponse,
 )
-
-# from models import Customer, Wallet
-
 
 load_dotenv()
 
@@ -233,8 +230,3 @@ app = FastAPI(
     debug=True,
 )
 app.include_router(router, prefix="/api/v1")
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)

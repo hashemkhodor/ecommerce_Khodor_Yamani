@@ -1,7 +1,8 @@
-from supabase import Client, create_client
 from loguru import logger
-from models import Good, GoodUpdate
+from app.models import Good, GoodUpdate
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
+from supabase import Client, create_client
+
 
 class InventoryTable:
     def __init__(self, url: str, key: str):
@@ -18,26 +19,28 @@ class InventoryTable:
             raise Exception(f"Failed to add good: {response.error.message}")
         return response.data
 
-
     def update_good_in_db(self, good_id: int, updated_good: GoodUpdate):
         update_data = updated_good
         if not update_data:
             raise ValueError("No fields provided to update.")
         response = (
-            self.client.table("inventory").update(update_data).eq("id", good_id).execute()
+            self.client.table("inventory")
+            .update(update_data)
+            .eq("id", good_id)
+            .execute()
         )
         if not response.data:
             raise Exception(f"Failed to update good: {response.error.message}")
         return response.data
 
-
     def get_good_from_db(self, good_id: int):
-        response = self.client.table("inventory").select("*").eq("id", good_id).execute()
+        response = (
+            self.client.table("inventory").select("*").eq("id", good_id).execute()
+        )
 
         if not response.data:
             raise Exception(f"Failed to fetch good: {response.error.message}")
         return response.data[0]
-
 
     def deduct_good_from_db(self, good_id: int):
         # RPC the below to be defined in supabase
@@ -55,14 +58,17 @@ class InventoryTable:
         END;
         $$ LANGUAGE plpgsql;
         """
-        product = self.table.select("*").eq("id",good_id).execute()
+        product = self.table.select("*").eq("id", good_id).execute()
         if product.data:
             product = product.data[0]
             product_count = product["count"]
-            if(product_count>0):
-                product_count = product_count-1
+            if product_count > 0:
+                product_count = product_count - 1
                 response = (
-                    self.client.table("inventory").update({"count":product_count}).eq("id", good_id).execute()
+                    self.client.table("inventory")
+                    .update({"count": product_count})
+                    .eq("id", good_id)
+                    .execute()
                 )
             else:
                 raise ValueError("Product count less than 0")

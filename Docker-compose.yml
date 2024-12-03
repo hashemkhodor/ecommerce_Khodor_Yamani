@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  customer:
+    build:
+      context: ./customer
+    ports:
+      - "8000:8000" # Maps host port 8000 to container port 8000
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+
+  reviews:
+    build:
+      context: ./reviews
+    ports:
+      - "8001:8001" # Maps host port 8001 to container port 8001
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+
+  sales:
+    build:
+      context: ./sales_service
+    ports:
+      - "8002:8002" # Maps host port 8002 to container port 8002
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+
+  inventory:
+    build:
+      context: ./inventory_service
+    ports:
+      - "8003:8003" # Maps host port 8003 to container port 8003
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}

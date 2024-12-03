@@ -6,15 +6,18 @@ from database import (
     update_good_in_db,
 )
 """
+
 import os
-from database import InventoryTable
-from models import Good, GoodUpdate
+
+from app.database import InventoryTable
 from dotenv import load_dotenv
+from app.models import Good, GoodUpdate
 
 load_dotenv()
 db_inv: InventoryTable = InventoryTable(
     url=os.getenv("SUPABASE_URL"), key=os.getenv("SUPABASE_KEY")
 )
+
 
 def add_good(good: Good):
     db_inv.add_good_to_db(good)

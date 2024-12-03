@@ -1,10 +1,9 @@
 import datetime
 from datetime import timedelta
 
-import jwt
 from jwt import DecodeError, ExpiredSignatureError
 
-from customer.schemas import Customer
+from customer.app.schemas import Customer
 
 SECRET_KEY = "your_secret_key_here"
 ALGORITHM = "HS256"

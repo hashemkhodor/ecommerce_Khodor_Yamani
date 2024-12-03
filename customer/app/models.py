@@ -6,7 +6,7 @@ from loguru import logger
 from postgrest import SyncRequestBuilder
 from supabase import Client, create_client
 
-from customer.schemas import Customer, Wallet
+from app.schemas import Customer, Wallet
 
 
 class CustomerTable:

@@ -1,9 +1,9 @@
+import os
 from typing import List
 
-from models import Purchase
-from supabase import Client, create_client
 from dotenv import load_dotenv
-import os
+from app.models import Purchase
+from supabase import Client, create_client
 
 load_dotenv()
 
