@@ -74,8 +74,8 @@ class PutReviewRequest(BaseModel):
     customer_id: str
     item_id: int
     rating: Optional[int] = Field(
-        ..., ge=0, le=5, description="Rating must be between 1 and 5"
-    )  # Enforce range 1-5
+        None, ge=0, le=5, description="Rating must be between 1 and 5"
+    )
     comment: Optional[str] = None
 
 
@@ -493,8 +493,8 @@ class ModerateReviewsResponse(BaseCustomResponse):
             else:
                 identifier_message = ""
 
-            message = f"Moderate review successfully {identifier_message}. Changed it from {review.flagged} to {new_flag}"
             assert review is not None, "You must provide reviews if status code is good"
+            message = f"Moderate review successfully {identifier_message}. Changed it from {review.flagged} to {new_flag}"
             data = {"review": review.model_dump()}
 
         elif status_code == status.HTTP_400_BAD_REQUEST:

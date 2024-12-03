@@ -1,5 +1,5 @@
-from service import process_purchase, get_purchases
 from fastapi import FastAPI, HTTPException
+from app.service import get_purchases, process_purchase
 
 app = FastAPI()
 
@@ -14,6 +14,7 @@ def fetch_all_purchases():
     """
 
     return get_purchases()
+
 
 @app.post("/api/v1/sales/purchase/{customer_username}/{good_id}")
 def purchase_good(customer_username: str, good_id: int):

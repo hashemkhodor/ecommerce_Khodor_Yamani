@@ -1,3 +1,5 @@
+from app.models import Good, GoodUpdate
+from app.service import add_good, deduct_good, get_good, update_good
 from fastapi import FastAPI, HTTPException
 from app.models import Good, GoodUpdate
 from app.service import add_good, deduct_good, get_good, update_good
@@ -85,5 +87,3 @@ def deduct_good_endpoint(good_id: int):
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-

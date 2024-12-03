@@ -1,13 +1,12 @@
 import os
 from typing import Optional
 
+from app.schemas import Review
 from dotenv import load_dotenv
 from loguru import logger
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
 from starlette import status
 from supabase import Client, create_client
-
-from app.schemas import Review
 
 
 class ReviewTable:

@@ -30,6 +30,7 @@ class Customer(BaseModel):
     :param role: Role of the customer (e.g., 'customer', 'moderator', 'admin').
     :type role: CustomerRole
     """
+
     name: str
     username: str
     password: str
@@ -407,7 +408,6 @@ class WalletChargeResponse(BaseCustomResponse):
 
         :raises ValueError: If an unexpected status code is provided.
         """
-
 
         data: Optional[dict[str, float]] = None
 

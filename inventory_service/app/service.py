@@ -10,8 +10,8 @@ from database import (
 import os
 
 from app.database import InventoryTable
-from dotenv import load_dotenv
 from app.models import Good, GoodUpdate
+from dotenv import load_dotenv
 
 load_dotenv()
 db_inv: InventoryTable = InventoryTable(

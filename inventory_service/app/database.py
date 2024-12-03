@@ -1,5 +1,5 @@
-from loguru import logger
 from app.models import Good, GoodUpdate
+from loguru import logger
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
 from supabase import Client, create_client
 
@@ -18,7 +18,6 @@ class InventoryTable:
     :ivar table: The inventory table for database queries.
     :vartype table: SyncRequestBuilder
     """
-
 
     def __init__(self, url: str, key: str):
         """
