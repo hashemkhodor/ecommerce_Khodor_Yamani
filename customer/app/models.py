@@ -248,6 +248,19 @@ class CustomerTable:
     def update_user(
         self, user_id: str, new_customer: Customer
     ) -> Optional[list[Customer]]:
+        """
+        Updates the details of an existing customer.
+    
+        Args:
+            user_id (str): The ID of the customer to update.
+            new_customer (Customer): The updated customer details, excluding the username.
+    
+        Returns:
+            Optional[list[Customer]]: A list containing the updated customer details if successful,
+                                      an empty list if the user is not found,
+                                      or None if the update operation fails.
+        """
+
         if self.get_users(username=user_id) is None:
             logger.info(f"User with username {user_id} not found")
             return []
