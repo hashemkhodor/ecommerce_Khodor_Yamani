@@ -1,12 +1,15 @@
+import os
 import datetime
 from datetime import timedelta
-
+from dotenv import load_dotenv
 from jwt import DecodeError, ExpiredSignatureError
 
 from customer.app.schemas import Customer
 
-SECRET_KEY = "your_secret_key_here"
-ALGORITHM = "HS256"
+load_dotenv()
+
+SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+ALGORITHM = os.getenv('JWT_ALOGRITHM')
 
 
 def create_access_token(

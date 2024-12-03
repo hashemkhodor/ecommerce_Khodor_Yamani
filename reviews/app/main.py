@@ -77,12 +77,12 @@ async def update_review(updated_review: PutReviewRequest):
         )
         if not stored_review:
             return PutReviewResponse(
-                status_code=status.HTTP_409_CONFLICT, review_schema=updated_review
+                status_code=status.HTTP_404_NOT_FOUND, review_schema=updated_review
             )
 
         updated_data = stored_review[0].model_dump()
         if updated_review.model_dump(exclude_unset=True).items():
-            for _key, value in updated_review.model_dump(exclude_unset=True).items():
+            for _key, value in updated_review.model_dump(exclude_unset=True, exclude_none=True).items():
                 updated_data[_key] = value
         else:
             return PutReviewResponse(
