@@ -70,6 +70,19 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 # Dependency to verify the JWT token
 def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
+    """
+    Verify the JWT token and extract the current user's information.
+
+    Args:
+        token (str): The JWT token provided via the OAuth2 scheme.
+
+    Returns:
+        dict: The decoded payload containing user information.
+
+    Raises:
+        HTTPException: If the token has expired or is invalid.
+    """
+
     try:
         # Decode the JWT token
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
