@@ -2,13 +2,14 @@ import os
 from typing import Literal, Optional
 
 from dotenv import load_dotenv
-from fastapi import APIRouter, FastAPI, HTTPException, Depends
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from loguru import logger
 from starlette import status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from reviews.auth import create_access_token, decode_access_token
-from reviews.models import ReviewTable
-from reviews.schemas import (
+
+from app.auth import create_access_token, decode_access_token
+from app.models import ReviewTable
+from app.schemas import (
     BaseCustomResponse,
     DeleteReviewResponse,
     GetReviewsResponse,
@@ -136,7 +137,7 @@ async def delete_review(customer_id: str, item_id: int):
 
 
 async def get_generic_review(
-        item_id: Optional[int] = None, customer_id: Optional[str] = None
+    item_id: Optional[int] = None, customer_id: Optional[str] = None
 ) -> GetReviewsResponse:
     assert item_id or customer_id, "Invalid Call"
     try:
@@ -219,10 +220,10 @@ async def login(credentials: LoginRequest):
 
 @router.put("/moderate", dependencies=[Depends(security)])
 async def moderate(
-        customer_id: str,
-        item_id: int,
-        new_flag: Literal["flagged", "approved", "needs_approval"],
-        credentials: HTTPAuthorizationCredentials = Depends(security)
+    customer_id: str,
+    item_id: int,
+    new_flag: Literal["flagged", "approved", "needs_approval"],
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     # Update Database
     try:
@@ -234,7 +235,11 @@ async def moderate(
                 customer_id=customer_id,
                 item_id=item_id,
                 new_flag=new_flag,
-                errors= user if isinstance(user,str) else "User don't have the permission to perform this action"
+                errors=(
+                    user
+                    if isinstance(user, str)
+                    else "User don't have the permission to perform this action"
+                ),
             )
 
         customer_item_exist_status: int = db.customer_and_item_exist(
@@ -295,8 +300,3 @@ app = FastAPI(
     debug=True,
 )
 app.include_router(router, prefix="/api/v1")
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)

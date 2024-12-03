@@ -1,6 +1,8 @@
+import os
 from typing import List
 from loguru import logger
-from models import Purchase
+from dotenv import load_dotenv
+from app.models import Purchase
 from supabase import Client, create_client
 from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
 
