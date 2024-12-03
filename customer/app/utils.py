@@ -15,12 +15,12 @@ def create_access_token(
     """
     Create a JWT token for a Customer.
 
-    Args:
-        customer (Customer): The customer object for which to create the token.
-        expires_delta (timedelta): The token expiry duration (default is 1 hour).
-
-    Returns:
-        str: A JWT token as a string.
+    :param customer: The customer object for which to create the token.
+    :type customer: Customer
+    :param expires_delta: The token expiry duration (default is 1 hour).
+    :type expires_delta: timedelta
+    :return: A JWT token as a string.
+    :rtype: str
     """
     # Prepare the payload, excluding sensitive data like the password
     to_encode = {
@@ -44,11 +44,10 @@ def decode_access_token(token: str) -> dict | str:
     """
     Decode and verify a JWT token.
 
-    Args:
-        token (str): The JWT token to decode.
-
-    Returns:
-        Union[dict, str]: Returns the payload as a dictionary if valid, or an error message if invalid.
+    :param token: The JWT token to decode.
+    :type token: str
+    :return: The payload as a dictionary if valid, or an error message if invalid.
+    :rtype: Union[dict, str]
     """
     try:
         # Decode the token and verify its signature and expiration
@@ -73,14 +72,11 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
     """
     Verify the JWT token and extract the current user's information.
 
-    Args:
-        token (str): The JWT token provided via the OAuth2 scheme.
-
-    Returns:
-        dict: The decoded payload containing user information.
-
-    Raises:
-        HTTPException: If the token has expired or is invalid.
+    :param token: The JWT token provided via the OAuth2 scheme.
+    :type token: str
+    :return: The decoded payload containing user information.
+    :rtype: dict
+    :raises HTTPException: If the token has expired or is invalid.
     """
 
     try:
@@ -103,7 +99,9 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
 
 # Example usage
 if __name__ == "__main__":
-    # Generate a token for demonstration
+    """
+    Example usage of the JWT token creation and decoding functions.
+    """
     example_customer = Customer(
         name="John Doe",
         username="johndoe",
