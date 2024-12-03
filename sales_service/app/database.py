@@ -1,33 +1,30 @@
 from typing import List
-
+from loguru import logger
 from models import Purchase
 from supabase import Client, create_client
-from dotenv import load_dotenv
-import os
+from postgrest import SyncRequestBuilder, SyncSelectRequestBuilder
 
-load_dotenv()
+class SalesTable:
+    def __init__(self, url: str, key: str):
+        self.client: Client = create_client(url, key)
+        self.table: SyncRequestBuilder = self.client.table("purchases")
 
-url: str = os.getenv("SUPABASE_URL")
-key: str = os.getenv("SUPABASE_KEY")
+    def record_purchase(self, purchase: Purchase):
+        logger.info(f"Adding {purchase.model_dump()}")
+        try:
+            response = self.client.table("purchases").insert(purchase.model_dump(exclude={'time'})).execute()
+            logger.info(response)
 
-# Ensure they are properly loaded
-if not url or not key:
-    raise ValueError("Supabase URL or key not found. Check your .env file.")
-
-supabase: Client = create_client(url, key)
-
-
-def record_purchase(purchase: Purchase):
-    response = supabase.table("purchases").insert(purchase.model_dump()).execute()
-
-    if response.error:
-        raise Exception(f"Failed to record purchase: {response.error.message}")
-    return response.data
+            if not response.data:
+                raise Exception(f"Failed to record purchase: {response.error.message}")
+            return response.data
+        except Exception as e:
+            logger.exception(e)
 
 
-def get_purchases() -> List[dict]:
-    response = supabase.table("purchases").select("*").execute()
+    def get_purchases(self) -> List[dict]:
+        response = self.client.table("purchases").select("*").execute()
 
-    if response.error:
-        raise Exception(f"Failed to fetch purchases: {response.error.message}")
-    return response.data or []  # return empty list if no records found
+        if not response.data:
+            raise Exception(f"Failed to fetch purchases: {response.error.message}")
+        return response.data or []  # return empty list if no records found

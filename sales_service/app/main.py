@@ -1,5 +1,4 @@
-from app.database import get_purchases
-from app.service import process_purchase
+from service import process_purchase, get_purchases
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
@@ -7,23 +6,9 @@ app = FastAPI()
 
 @app.get("/api/v1/sales/get")
 def fetch_all_purchases():
-    try:
-        purchases = get_purchases()
-        return [
-            {
-                "id": purchase["id"],
-                "good_id": purchase["good_id"],
-                "user_id": purchase["user_id"],
-                "amount_deducted": purchase["amount_deducted"],
-                "time": purchase["time"],
-            }
-            for purchase in purchases
-        ]
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return get_purchases()
 
-
-@app.post("/api/v1/sales/purchase")
+@app.post("/api/v1/sales/purchase/{customer_username}/{good_id}")
 def purchase_good(customer_username: str, good_id: int):
     try:
         return process_purchase(customer_username, good_id)
