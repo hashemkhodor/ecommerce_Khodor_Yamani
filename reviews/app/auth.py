@@ -15,6 +15,25 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/reviews/auth/login")
 
 
 class Customer(TypedDict):
+    """
+    Represents a customer in the system.
+
+    :param name: Full name of the customer.
+    :type name: str
+    :param username: Unique username of the customer.
+    :type username: str
+    :param age: Age of the customer.
+    :type age: int
+    :param address: Address of the customer.
+    :type address: str
+    :param gender: Gender of the customer (True for male, False for female).
+    :type gender: bool
+    :param marital_status: Marital status of the customer (e.g., single, married).
+    :type marital_status: str
+    :param role: Role of the customer (e.g., customer, admin).
+    :type role: str
+    """
+
     name: str
     username: str
     age: int
@@ -30,12 +49,12 @@ def create_access_token(
     """
     Create a JWT token for a Customer.
 
-    Args:
-        customer (Customer): The customer object for which to create the token.
-        expires_delta (timedelta): The token expiry duration (default is 1 hour).
-
-    Returns:
-        str: A JWT token as a string.
+    :param customer: The customer object for which to create the token.
+    :type customer: Customer
+    :param expires_delta: The token expiry duration (default is 1 hour).
+    :type expires_delta: timedelta
+    :return: A JWT token as a string.
+    :rtype: str
     """
     # Prepare the payload, excluding sensitive data like the password
     to_encode = {
@@ -58,11 +77,10 @@ def decode_access_token(token: str) -> Union[dict, str]:
     """
     Decode and verify a JWT token.
 
-    Args:
-        token (str): The JWT token to decode.
-
-    Returns:
-        Union[dict, str]: The payload as a dictionary if valid, or an error message if invalid.
+    :param token: The JWT token to decode.
+    :type token: str
+    :return: The payload as a dictionary if valid, or an error message if invalid.
+    :rtype: Union[dict, str]
     """
     try:
         # Decode the token and verify its signature and expiration
@@ -78,14 +96,11 @@ def get_current_user(authorization: str = Header(None)) -> dict:
     """
     Decode and verify the current user from the JWT token in the Authorization header.
 
-    Args:
-        authorization (str): The Authorization header containing the Bearer token.
-
-    Returns:
-        dict: Decoded payload with user information.
-
-    Raises:
-        HTTPException: If the token is missing, invalid, or expired.
+    :param authorization: The Authorization header containing the Bearer token.
+    :type authorization: str
+    :return: Decoded payload with user information.
+    :rtype: dict
+    :raises HTTPException: If the token is missing, invalid, or expired.
     """
     if not authorization:
         raise HTTPException(
