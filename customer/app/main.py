@@ -289,3 +289,28 @@ app = FastAPI(
     debug=True,
 )
 app.include_router(router, prefix="/api/v1")
+
+
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint to verify the service is operational.
+
+    :return: A simple status message.
+    :rtype: dict
+    """
+    try:
+        # Perform a simple database operation to ensure connectivity
+        result = db.get_customers()
+        return {
+            "status": "OK",
+            "db_status": "connected",
+            "customers_count": len(result),
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {
+            "status": "ERROR",
+            "db_status": "disconnected",
+            "error": str(e),
+        }

@@ -36,6 +36,16 @@ def mock_decode_access_token():
         yield mock_decode
 
 
+def test_health_check_success():
+    # Mock `get_purchases` to simulate successful database connection
+    with patch(
+        "app.main.db.customer_and_item_exist", return_value=[{"id": 1}, {"id": 2}]
+    ):
+        response = client.get("/health")
+        assert response.status_code == 200
+        assert response.json() == {"status": "OK", "db_status": "connected"}
+
+
 # Test cases for the /reviews/submit endpoint
 def test_submit_review_success(mock_db):
     # Prepare test data

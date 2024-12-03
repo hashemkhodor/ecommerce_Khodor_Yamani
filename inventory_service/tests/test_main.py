@@ -24,6 +24,18 @@ def good_update_data():
     return {"price": 89.99, "count": 15}
 
 
+def test_health_check_success():
+    # Mock `get_purchases` to simulate successful database connection
+    with patch("app.main.get_good", return_value=[{"id": 1}, {"id": 2}]):
+        response = client.get("/health")
+        assert response.status_code == 200
+        assert response.json() == {
+            "status": "OK",
+            "db_status": "connected",
+            "sample_item_check": [{"id": 1}, {"id": 2}],
+        }
+
+
 def test_add_good_endpoint_success(good_data):
     with patch("app.main.add_good") as mock_add_good:
         mock_add_good.return_value = {"id": 1, **good_data}

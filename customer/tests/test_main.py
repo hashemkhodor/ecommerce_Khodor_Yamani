@@ -16,6 +16,18 @@ from fastapi.testclient import TestClient
 client = TestClient(app)
 
 
+def test_health_check_success():
+    # Mock `get_purchases` to simulate successful database connection
+    with patch("app.main.db.get_customers", return_value=[1, 2, 3]):
+        response = client.get("/health")
+        assert response.status_code == 200
+        assert response.json() == {
+            "status": "OK",
+            "db_status": "connected",
+            "customers_count": 3,
+        }
+
+
 @patch("app.main.db")
 def test_register_customer_success(mock_db):
     # Arrange

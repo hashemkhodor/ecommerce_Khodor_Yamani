@@ -73,7 +73,7 @@ class SalesTable:
             response = self.table.select("*").execute()
 
             if not response:
-                
+
                 raise Exception(f"Failed to fetch purchases")
             return response.data or []  # return empty list if no records found
         except Exception as e:

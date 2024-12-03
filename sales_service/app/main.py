@@ -1,23 +1,45 @@
-from fastapi import FastAPI, HTTPException
 from app.service import get_purchases, process_purchase
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
 
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint to verify that the service is operational.
+
+    :return: A simple status message.
+    :rtype: dict
+    """
+    try:
+        # Perform a simple database operation to ensure connectivity
+        purchases = get_purchases()
+        return {
+            "status": "OK",
+            "db_status": "connected",
+            "records_found": len(purchases),
+        }
+    except Exception as e:
+        return {"status": "ERROR", "db_status": "disconnected", "error": str(e)}
+
+
 @app.get("/api/v1/sales/get")
-def fetch_all_purchases():
+async def fetch_all_purchases():
     """
     Fetches all purchase records from the database.
 
     :return: A list of purchase records.
     :rtype: List[dict]
     """
-
-    return get_purchases()
+    try:
+        return get_purchases()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.post("/api/v1/sales/purchase/{customer_username}/{good_id}")
-def purchase_good(customer_username: str, good_id: int):
+async def purchase_good(customer_username: str, good_id: int):
     """
     Processes the purchase of a good by a customer.
 
