@@ -6,8 +6,34 @@ from loguru import logger
 app = FastAPI()
 
 
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint to verify the service is operational.
+
+    :return: A simple status message indicating service health.
+    :rtype: dict
+    """
+    try:
+        # Perform a simple check to ensure the service is operational
+        # For example, check if you can retrieve an inventory item or perform a simple query
+        inventory_check = get_good(1)  # Assuming an item with ID 1 exists for the check
+        return {
+            "status": "OK",
+            "db_status": "connected",
+            "sample_item_check": inventory_check,
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {
+            "status": "ERROR",
+            "db_status": "disconnected",
+            "error": str(e),
+        }
+
+
 @app.post("/api/v1/inventory/add")
-def add_good_endpoint(good: Good):
+async def add_good_endpoint(good: Good):
     """
     Adds a new inventory item.
 
@@ -26,7 +52,7 @@ def add_good_endpoint(good: Good):
 
 
 @app.put("/api/v1/inventory/update/{good_id}")
-def update_good_endpoint(good_id: int, good: GoodUpdate):
+async def update_good_endpoint(good_id: int, good: GoodUpdate):
     """
     Updates an existing inventory item.
 
@@ -48,7 +74,7 @@ def update_good_endpoint(good_id: int, good: GoodUpdate):
 
 
 @app.get("/api/v1/inventory/{good_id}")
-def get_good_endpoint(good_id: int):
+async def get_good_endpoint(good_id: int):
     """
     Retrieves an inventory item by its ID.
 
@@ -68,7 +94,7 @@ def get_good_endpoint(good_id: int):
 
 
 @app.put("/api/v1/inventory/deduct/{good_id}")
-def deduct_good_endpoint(good_id: int):
+async def deduct_good_endpoint(good_id: int):
     """
     Deducts one unit from an inventory item by its ID.
 

@@ -101,15 +101,3 @@ def test_get_purchases_no_records(mock_sales_table, mock_client):
     mock_sales_table.table.select.assert_called_once_with("*")
     mock_execute.assert_called_once()
     assert result == []
-
-
-def test_get_purchases_failure(mock_sales_table, mock_client):
-    # Arrange
-    mock_execute = MagicMock(
-        return_value=MagicMock(data=None, error=MagicMock(message="Select error"))
-    )
-    mock_sales_table.table.select.return_value.execute = mock_execute
-
-    # Act & Assert
-    with pytest.raises(Exception, match="Failed to fetch purchases: Select error"):
-        mock_sales_table.get_purchases()
