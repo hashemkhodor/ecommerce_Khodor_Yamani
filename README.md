@@ -43,9 +43,8 @@ A `docker-compose.yml` file is provided for orchestrating all microservices.
 
 To build and run all services:
 ```bash
-docker-compose up --build
-```  
-
+docker-compose up --build  
+```
 This will:
 - Build and containerize each service with its respective `Dockerfile`.
 - Expose the services on the following ports:
@@ -61,6 +60,45 @@ Once services are running, you can access the API documentation at:
 - **Sales Service:** `http://localhost:8002/docs`
 - **Review Service:** `http://localhost:8003/docs`
 
+## Running Tests
+To run tests for any service:
+1. Navigate to the service directory:
+    ```bash
+   cd [service-name]
+   ```
+2. Run the tests using pytest:
+    ```bash
+   python -m pytest
+    ```
+## Profiling
+To profile the API performance of a service:
+1. Navigate to the service directory:
+    ```bash
+   cd [service-name]
+   ```
+2. Run the profiler script:
+    ```bash
+   python -m tests.api_profiler
+    ```
+## Running Individual Services
+To run a service individually:
+1. Navigate to the service directory:
+    ```bash
+   cd [service-name]
+    ```
+2. Create a virtual environment:
+    ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
+3. Install dependencies:
+    ```bash
+   pip install -r requirements.txt
+    ```
+4. Start the service:
+    ```bash
+   uvicorn app.main:app --host 127.0.0.1 --port 8000
+    ```
 ## Deployment
 The project uses Docker for containerization and orchestration, enabling smooth deployment on any platform supporting Docker. Each microservice has an independent deployment pipeline defined in its `Dockerfile`.
 
