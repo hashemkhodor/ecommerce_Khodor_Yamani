@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "ffa25379-3b88-4cc7-a31c-2f6648f2727c",
+		"name": "Reviews API",
+		"description": "Collection of API endpoints for Reviews Management and Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32715401"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"johndoe\",\n  \"password\": \"securepassword\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Review",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customer_id\": \"johndoe\",\n  \"item_id\": 3,\n  \"rating\": 5,\n  \"comment\": \"Excellent product!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/submit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Review",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customer_id\": \"johndoe\",\n  \"item_id\": 3,\n  \"rating\": 4,\n  \"comment\": \"Good product, but could be improved.\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/update",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Review",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/delete?customer_id=johndoe&item_id=3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "customer_id",
+							"value": "johndoe"
+						},
+						{
+							"key": "item_id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reviews by Item",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/item/3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"item",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reviews by Customer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/customer/johndoe",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"customer",
+						"johndoe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Review Details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/details?customer_id=johndoe&item_id=3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"details"
+					],
+					"query": [
+						{
+							"key": "customer_id",
+							"value": "johndoe"
+						},
+						{
+							"key": "item_id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Moderate Review",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customer_id\": \"johndoe\",\n  \"item_id\": 3,\n  \"flag\": \"approved\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/reviews/moderate?customer_id=johndoe&item_id=3&new_flag=approved",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"moderate"
+					],
+					"query": [
+						{
+							"key": "customer_id",
+							"value": "johndoe"
+						},
+						{
+							"key": "item_id",
+							"value": "3"
+						},
+						{
+							"key": "new_flag",
+							"value": "approved"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8001",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

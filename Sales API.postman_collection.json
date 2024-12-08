@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "81e25a88-f033-4a35-bfef-78e25559706a",
+		"name": "Sales API",
+		"description": "Collection of API endpoints for Sales Management and Health Check",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32715401"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch All Purchases",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/sales/get",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sales",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase Good",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/sales/purchase/{{customer_username}}/{{good_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sales",
+						"purchase",
+						"{{customer_username}}",
+						"{{good_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8002",
+			"type": "string"
+		},
+		{
+			"key": "customer_username",
+			"value": "janesmith",
+			"type": "string"
+		},
+		{
+			"key": "good_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

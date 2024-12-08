@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "a101cc47-565c-4cc2-989e-3538c134d6ca",
+		"name": "Inventory API",
+		"description": "Collection of API endpoints for Inventory Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32715401"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Good",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Sample Item\",\n  \"category\": \"electronics\",\n  \"price\": 99.99,\n  \"description\": \"A sample electronic item.\",\n  \"count\": 10\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/inventory/add",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"inventory",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Good",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"price\": 89.99,\n  \"count\": 15\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/inventory/update/{{good_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"inventory",
+						"update",
+						"{{good_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Good",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/inventory/{{good_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"inventory",
+						"{{good_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deduct Good",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/inventory/deduct/{{good_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"inventory",
+						"deduct",
+						"{{good_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8003",
+			"type": "string"
+		},
+		{
+			"key": "good_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

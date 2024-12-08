@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "1b74cc70-cb1a-4bb1-b7bb-0d022842493d",
+		"name": "Customer API",
+		"description": "Collection of API endpoints for Customer Management and Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32715401"
+	},
+	"item": [
+		{
+			"name": "Register Customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Jane Smith\",\n  \"username\": \"janesmith\",\n  \"password\": \"SecurePass123!\",\n  \"age\": 28,\n  \"address\": \"456 Elm Street, Springfield, IL 62704\",\n  \"gender\": false,\n  \"marital_status\": \"single\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/auth/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/delete/{{customer_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"delete",
+						"{{customer_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Jane Doe\",\n  \"age\": 29,\n  \"address\": \"789 Oak Avenue, Springfield, IL 62704\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/update/{{customer_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"update",
+						"{{customer_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/get",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/get/{{customer_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"get",
+						"{{customer_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge Wallet",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 50.0\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/wallet/{{customer_id}}/charge",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"wallet",
+						"{{customer_id}}",
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deduct Wallet",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 20.0\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/customer/wallet/{{customer_id}}/deduct",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"wallet",
+						"{{customer_id}}",
+						"deduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "customer_id",
+			"value": "janesmith",
+			"type": "string"
+		}
+	]
+}
