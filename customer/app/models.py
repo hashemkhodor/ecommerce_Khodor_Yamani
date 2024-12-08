@@ -21,10 +21,8 @@ class CustomerTable:
         """
         Initializes the CustomerTable with a Supabase client.
 
-        :param url: The Supabase URL.
-        :type url: str
-        :param key: The Supabase key.
-        :type key: str
+        :param str url: The Supabase URL.
+        :param str key: The Supabase key.
         """
         self.client: Client = create_client(url, key)
         self.table: SyncRequestBuilder = self.client.table("customer")
@@ -33,12 +31,10 @@ class CustomerTable:
         """
         Creates a new customer and initializes their wallet.
 
-        Args:
-            customer (Customer): The customer details.
-
-        Returns:
-            Optional[bool]: True if the customer and wallet were created successfully,
-                            False if the operation failed, or None if an exception occurred.
+        :param Customer customer: The customer details.
+        :return: True if the customer and wallet were created successfully, False if the 
+                operation failed, or None if an exception occurred.
+        :rtype: Optional[bool]
         """
 
         try:
@@ -147,12 +143,10 @@ class CustomerTable:
         """
         Updates the wallet balance for a customer.
 
-        Args:
-            user_id (str): The customer's ID.
-            amount (float): The amount to add (positive) or deduct (negative).
-
-        Returns:
-            Optional[list[Wallet]]: The updated wallet details as a list, or None if an exception occurred.
+        :param str user_id: The customer's ID.
+        :param float amount: The amount to add (positive) or deduct (negative).
+        :return: The updated wallet details as a list, or None if an exception occurred.
+        :rtype: Optional[list[Wallet]]
         """
 
         try:
@@ -179,10 +173,8 @@ class CustomerTable:
         """
         Deducts a specified amount from a customer's wallet.
 
-        :param user_id: The customer's ID.
-        :type user_id: str
-        :param amount: The amount to deduct from the wallet. Must be negative.
-        :type amount: float
+        :param str user_id: The customer's ID.
+        :param float amount: The amount to deduct from the wallet. Must be negative.
         :return: The updated wallet details as a list, or None if an exception occurred.
         :rtype: Optional[list[Wallet]]
         :raises AssertionError: If the amount is not a float or is not negative.
@@ -196,15 +188,11 @@ class CustomerTable:
         """
         Charges a customer's wallet by adding a specified amount.
 
-        Args:
-            user_id (str): The customer's ID.
-            amount (float): The amount to add to the wallet. Must be non-negative.
-
-        Returns:
-            Optional[list[Wallet]]: The updated wallet details as a list, or None if an exception occurred.
-
-        Raises:
-            AssertionError: If the amount is not a float or is negative.
+        :param str user_id: The customer's ID.
+        :param float amount: The amount to add to the wallet. Must be non-negative.
+        :return: The updated wallet details as a list, or None if an exception occurred.
+        :rtype: Optional[list[Wallet]]
+        :raises AssertionError: If the amount is not a float or is negative.
         """
 
         assert (
@@ -217,8 +205,7 @@ class CustomerTable:
         """
         Deletes a customer and their wallet.
 
-        :param user_id: The customer's ID.
-        :type user_id: str
+        :param str user_id: The customer's ID.
         :return: True if the user and wallet were deleted successfully, False otherwise.
         :rtype: bool
         """
