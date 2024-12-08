@@ -14,10 +14,10 @@ async def fetch_all_purchases_profile():
 
 
 # Profiling process_purchase
-async def process_purchase_profile():
-    customer_username = "testuser"
-    good_id = 1
-    return process_purchase(customer_username, good_id)
+# async def process_purchase_profile():
+#     customer_username = "testuser"
+#     good_id = 1
+#     return process_purchase(customer_username, good_id)
 
 
 # cProfile Function
@@ -37,17 +37,17 @@ def mock_fetch_all_purchases_sync():
     asyncio.run(fetch_all_purchases_profile())
 
 
-def mock_process_purchase_sync():
-    asyncio.run(process_purchase_profile())
+# def mock_process_purchase_sync():
+#     asyncio.run(process_purchase_profile())
 
 
 # LineProfiler for All Functions
 def line_profile():
     profiler = LineProfiler()
     profiler.add_function(mock_fetch_all_purchases_sync)
-    profiler.add_function(mock_process_purchase_sync)
+    # profiler.add_function(mock_process_purchase_sync)
     profiler.run("mock_fetch_all_purchases_sync()")
-    profiler.run("mock_process_purchase_sync()")
+    # profiler.run("mock_process_purchase_sync()")
     profiler.print_stats()
 
 
@@ -55,14 +55,14 @@ def line_profile():
 @profile
 async def memory_profile():
     await fetch_all_purchases_profile()
-    await process_purchase_profile()
+    # await process_purchase_profile()
 
 
 # Main Execution
 if __name__ == "__main__":
     print("Profiling with cProfile:")
     profile_cprofile(fetch_all_purchases_profile)
-    profile_cprofile(process_purchase_profile)
+    # profile_cprofile(process_purchase_profile)
 
     print("\nProfiling line-by-line:")
     line_profile()
