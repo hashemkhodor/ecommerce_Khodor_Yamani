@@ -2,10 +2,9 @@ import datetime
 import os
 from datetime import timedelta
 
+from app.schemas import Customer
 from dotenv import load_dotenv
 from jwt.exceptions import DecodeError, ExpiredSignatureError
-
-from app.schemas import Customer
 
 load_dotenv()
 

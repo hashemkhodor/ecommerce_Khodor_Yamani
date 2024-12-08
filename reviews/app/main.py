@@ -1,12 +1,6 @@
 import os
 from typing import Literal, Optional
 
-from dotenv import load_dotenv
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from loguru import logger
-from starlette import status
-
 from app.auth import create_access_token, decode_access_token
 from app.models import ReviewTable
 from app.schemas import (
@@ -21,6 +15,11 @@ from app.schemas import (
     PutReviewResponse,
     Review,
 )
+from dotenv import load_dotenv
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from loguru import logger
+from starlette import status
 
 security = HTTPBearer()
 # Define router
@@ -390,6 +389,7 @@ app = FastAPI(
     debug=True,
 )
 app.include_router(router, prefix="/api/v1")
+
 
 @app.get("/health")
 async def health_check():

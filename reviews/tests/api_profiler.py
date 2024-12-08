@@ -1,17 +1,18 @@
 import asyncio
-from line_profiler import LineProfiler
-from memory_profiler import profile
 import cProfile
 from pstats import Stats
+
 from app.main import (
+    delete_review,
+    get_customer_review,
+    get_item_review,
+    login,
     submit_review,
     update_review,
-    delete_review,
-    get_item_review,
-    get_customer_review,
-    login,
 )
-from app.schemas import PostReviewRequest, PutReviewRequest, LoginRequest
+from app.schemas import LoginRequest, PostReviewRequest, PutReviewRequest
+from line_profiler import LineProfiler
+from memory_profiler import profile
 
 
 # Profiling submit_review
@@ -65,7 +66,7 @@ def profile_cprofile(func, *args, **kwargs):
     profiler.disable()
     stats = Stats(profiler)
     stats.strip_dirs()
-    stats.sort_stats('time')
+    stats.sort_stats("time")
     stats.print_stats()
 
 

@@ -32,7 +32,7 @@ class CustomerTable:
         Creates a new customer and initializes their wallet.
 
         :param Customer customer: The customer details.
-        :return: True if the customer and wallet were created successfully, False if the 
+        :return: True if the customer and wallet were created successfully, False if the
                 operation failed, or None if an exception occurred.
         :rtype: Optional[bool]
         """

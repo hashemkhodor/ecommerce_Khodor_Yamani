@@ -6,28 +6,26 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Reviews Service'
-copyright = '2024, Hashem Khodor, Mahmoud Yamani'
-author = 'Hashem Khodor, Mahmoud Yamani'
+project = "Reviews Service"
+copyright = "2024, Hashem Khodor, Mahmoud Yamani"
+author = "Hashem Khodor, Mahmoud Yamani"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../'))
 
-extensions = [
-    'sphinx.ext.autodoc'
-]
+sys.path.insert(0, os.path.abspath("../../"))
 
-templates_path = ['_templates']
+extensions = ["sphinx.ext.autodoc"]
+
+templates_path = ["_templates"]
 exclude_patterns = []
-
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+html_theme = "alabaster"
+html_static_path = ["_static"]

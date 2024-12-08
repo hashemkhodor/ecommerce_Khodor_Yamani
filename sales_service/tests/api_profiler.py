@@ -1,10 +1,11 @@
 import asyncio
-from line_profiler import LineProfiler
-from memory_profiler import profile
 import cProfile
 from pstats import Stats
-from app.service import get_purchases, process_purchase
+
 from app.models import Purchase
+from app.service import get_purchases, process_purchase
+from line_profiler import LineProfiler
+from memory_profiler import profile
 
 
 # Profiling fetch_all_purchases
@@ -27,7 +28,7 @@ def profile_cprofile(func, *args, **kwargs):
     profiler.disable()
     stats = Stats(profiler)
     stats.strip_dirs()
-    stats.sort_stats('time')
+    stats.sort_stats("time")
     stats.print_stats()
 
 

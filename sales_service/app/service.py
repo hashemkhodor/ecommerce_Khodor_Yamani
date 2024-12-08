@@ -1,8 +1,9 @@
+import os
+
 import httpx
 from app.database import SalesTable
 from app.models import Purchase
 from dotenv import load_dotenv
-import os
 from fastapi import HTTPException
 from loguru import logger
 
@@ -14,6 +15,7 @@ load_dotenv()
 db_sale: SalesTable = SalesTable(
     url=os.getenv("SUPABASE_URL"), key=os.getenv("SUPABASE_KEY")
 )
+
 
 def fetch_good_details(good_id: int):
     """
@@ -57,12 +59,13 @@ def deduct_wallet_balance(customer_username: str, amount: float):
 
     with httpx.Client() as client:
         response = client.put(
-            f"{CUSTOMER_SERVICE_URL}/wallet/{customer_username}/deduct",
-            json=amount
+            f"{CUSTOMER_SERVICE_URL}/wallet/{customer_username}/deduct", json=amount
         )
         logger.info(response.status_code)
         if response.status_code == 404:
-            raise ValueError(f"Customer '{customer_username}' not found in the database")
+            raise ValueError(
+                f"Customer '{customer_username}' not found in the database"
+            )
         elif response.status_code == 400:
             raise ValueError("Amount not enough")
         elif response.status_code != 200:
@@ -130,6 +133,7 @@ def process_purchase(customer_username: str, good_id: int):
 
     except ValueError as e:
         raise ValueError(str(e))
+
 
 def get_purchases():
     """

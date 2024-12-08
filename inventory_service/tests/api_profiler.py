@@ -1,10 +1,11 @@
 import asyncio
-from line_profiler import LineProfiler
-from memory_profiler import profile
 import cProfile
 from pstats import Stats
-from app.service import add_good, update_good, get_good, deduct_good
+
 from app.models import Good, GoodUpdate
+from app.service import add_good, deduct_good, get_good, update_good
+from line_profiler import LineProfiler
+from memory_profiler import profile
 
 
 # Profiling add_good
@@ -43,7 +44,7 @@ def profile_cprofile(func, *args, **kwargs):
     profiler.disable()
     stats = Stats(profiler)
     stats.strip_dirs()
-    stats.sort_stats('time')
+    stats.sort_stats("time")
     stats.print_stats()
 
 
