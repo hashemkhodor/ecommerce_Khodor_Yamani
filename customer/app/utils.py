@@ -3,9 +3,9 @@ import os
 from datetime import timedelta
 
 from dotenv import load_dotenv
-from jwt import DecodeError, ExpiredSignatureError
+from jwt.exceptions import DecodeError, ExpiredSignatureError
 
-from customer.app.schemas import Customer
+from app.schemas import Customer
 
 load_dotenv()
 

@@ -1,6 +1,7 @@
 from app.models import Good, GoodUpdate
 from app.service import add_good, deduct_good, get_good, update_good
 from fastapi import FastAPI, HTTPException
+from app.models import Good, GoodUpdate
 from loguru import logger
 
 app = FastAPI()

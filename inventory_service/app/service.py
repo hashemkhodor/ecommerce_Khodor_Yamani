@@ -1,12 +1,3 @@
-"""
-from database import (
-    add_good_to_db,
-    deduct_good_from_db,
-    get_good_from_db,
-    update_good_in_db,
-)
-"""
-
 import os
 
 from app.database import InventoryTable
