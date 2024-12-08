@@ -247,7 +247,7 @@ async def deduct_wallet(customer_id: str, amount: float = Body(..., ge=0)):
     """
     try:
         customer_wallet: list[Wallet] = db.get_wallet(user_id=customer_id)
-        if customer_wallet is None:
+        if not customer_wallet:
             return WalletDeductResponse(
                 status_code=404, customer_id=customer_id, amount=amount
             )

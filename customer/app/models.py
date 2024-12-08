@@ -135,7 +135,7 @@ class CustomerTable:
                 .eq("customer_id", user_id)
                 .execute()
             )
-            if result.data is None:
+            if not result.data:
                 return []
             return [Wallet.model_validate(result.data[0])]
 

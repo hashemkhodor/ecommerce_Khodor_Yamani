@@ -278,7 +278,7 @@ async def login(credentials: LoginRequest):
 
         if not user.data:
             raise HTTPException(
-                status_code=status.HTTP_404_BAD_REQUEST,
+                status_code=status.HTTP_404_NOT_FOUND,
                 detail="Username or password is invalid",
             )
         return BaseCustomResponse(

@@ -3,9 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from app.database import InventoryTable
 from app.models import Good, GoodUpdate
-from pydantic import ValidationError
 from supabase import Client
-from supabase.lib.client_options import ClientOptions
 
 
 @pytest.fixture
