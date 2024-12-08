@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>reviews.app package &#8212; E-Commerce Khodor Yamani 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="reviews-app-package">
+<h1>reviews.app package<a class="headerlink" href="#reviews-app-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="reviews-app-auth-module">
+<h2>reviews.app.auth module<a class="headerlink" href="#reviews-app-auth-module" title="Link to this heading">¶</a></h2>
+</section>
+<section id="reviews-app-main-module">
+<h2>reviews.app.main module<a class="headerlink" href="#reviews-app-main-module" title="Link to this heading">¶</a></h2>
+</section>
+<section id="reviews-app-models-module">
+<h2>reviews.app.models module<a class="headerlink" href="#reviews-app-models-module" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-reviews.app.schemas">
+<span id="reviews-app-schemas-module"></span><h2>reviews.app.schemas module<a class="headerlink" href="#module-reviews.app.schemas" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.BaseCustomResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">BaseCustomResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.BaseCustomResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">JSONResponse</span></code></p>
+<p>Base response class for standardizing API responses.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>status_code (int): The HTTP status code of the response.
+message (str): A descriptive message about the response.
+data (Optional[Any]): The payload data for the response.
+notes (Optional[str]): Additional notes for the response.
+errors (Optional[str]): Any errors related to the response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.DeleteReviewResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">DeleteReviewResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.DeleteReviewResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#reviews.app.schemas.BaseCustomResponse" title="reviews.app.schemas.BaseCustomResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCustomResponse</span></code></a></p>
+<p>Response schema for deleting a review.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>item_id (int): The ID of the item being reviewed.
+customer_id (str): The ID of the customer whose review is being deleted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.GetReviewsResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">GetReviewsResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reviews</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#reviews.app.schemas.Review" title="reviews.app.schemas.Review"><span class="pre">Review</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.GetReviewsResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#reviews.app.schemas.BaseCustomResponse" title="reviews.app.schemas.BaseCustomResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCustomResponse</span></code></a></p>
+<p>Response schema for retrieving reviews.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>item_id (Optional[int]): The ID of the item being reviewed, if applicable.
+customer_id (Optional[str]): The ID of the customer whose reviews are retrieved, if applicable.
+reviews (Optional[list[Review]]): A list of retrieved reviews.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">LoginRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.LoginRequest" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the schema for a login request.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>username (str): The username of the customer.
+password (str): The password for the customer’s account.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginRequest.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.LoginRequest.model_computed_fields" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginRequest.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.LoginRequest.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginRequest.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'password':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'username':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#reviews.app.schemas.LoginRequest.model_fields" title="Link to this definition">¶</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo].</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginRequest.password">
+<span class="sig-name descname"><span class="pre">password</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.LoginRequest.password" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginRequest.username">
+<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.LoginRequest.username" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.LoginResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">LoginResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials_schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#reviews.app.schemas.LoginRequest" title="reviews.app.schemas.LoginRequest"><span class="pre">LoginRequest</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.LoginResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#reviews.app.schemas.BaseCustomResponse" title="reviews.app.schemas.BaseCustomResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCustomResponse</span></code></a></p>
+<p>Response schema for login operations.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>credentials_schema (LoginRequest): The schema of the login credentials.
+token (Optional[str]): The JWT token generated for the user.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">ModerateRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'flagged'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'approved'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'needs_approval'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.ModerateRequest" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a moderation request for a review.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>customer_id (str): The ID of the customer whose review is being moderated.
+item_id (int): The ID of the item being reviewed.
+flag (Literal[“flagged”, “approved”, “needs_approval”]): The new moderation status for the review.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.ModerateRequest.customer_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'flagged'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'approved'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'needs_approval'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#reviews.app.schemas.ModerateRequest.flag" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest.item_id">
+<span class="sig-name descname"><span class="pre">item_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reviews.app.schemas.ModerateRequest.item_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.ModerateRequest.model_computed_fields" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.ModerateRequest.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateRequest.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'customer_id':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'flag':</span> <span class="pre">FieldInfo(annotation=Literal['flagged',</span> <span class="pre">'approved',</span> <span class="pre">'needs_approval'],</span> <span class="pre">required=True),</span> <span class="pre">'item_id':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#reviews.app.schemas.ModerateRequest.model_fields" title="Link to this definition">¶</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo].</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.ModerateReviewsResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">ModerateReviewsResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">review</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#reviews.app.schemas.Review" title="reviews.app.schemas.Review"><span class="pre">Review</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.ModerateReviewsResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#reviews.app.schemas.BaseCustomResponse" title="reviews.app.schemas.BaseCustomResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCustomResponse</span></code></a></p>
+<p>Response for moderating customer reviews.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>status_code (int): The HTTP status code of the response.
+item_id (int): The ID of the item being reviewed.
+customer_id (str): The ID of the customer whose review is being moderated.
+new_flag (str): The new moderation status for the review.
+review (Optional[Review]): The updated review object, if moderation is successful.
+notes (Optional[str]): Additional notes related to the response.
+errors (Optional[str]): Error details, if any.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">PostReviewRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ge</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">ge</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Le</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">le</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the schema for submitting a new review.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>customer_id (str): The ID of the customer submitting the review.
+item_id (int): The ID of the item being reviewed.
+rating (int): The rating given by the customer, must be between 0 and 5.
+comment (str): The text comment provided by the customer.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.comment">
+<span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.comment" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.customer_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.item_id">
+<span class="sig-name descname"><span class="pre">item_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.item_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.model_computed_fields" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'comment':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'customer_id':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'item_id':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True),</span> <span class="pre">'rating':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True,</span> <span class="pre">description='Rating</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">between</span> <span class="pre">1</span> <span class="pre">and</span> <span class="pre">5',</span> <span class="pre">metadata=[Ge(ge=0),</span> <span class="pre">Le(le=5)])}</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.model_fields" title="Link to this definition">¶</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo].</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewRequest.rating">
+<span class="sig-name descname"><span class="pre">rating</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reviews.app.schemas.PostReviewRequest.rating" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.PostReviewResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">PostReviewResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">review_schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#reviews.app.schemas.PostReviewRequest" title="reviews.app.schemas.PostReviewRequest"><span class="pre">PostReviewRequest</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.PostReviewResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#reviews.app.schemas.BaseCustomResponse" title="reviews.app.schemas.BaseCustomResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCustomResponse</span></code></a></p>
+<p>Response schema for submitting a new review.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>review_schema (PostReviewRequest): The schema of the submitted review.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">PutReviewRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ge</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">ge</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Le</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">le</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the schema for updating an existing review.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>customer_id (str): The ID of the customer who submitted the review.
+item_id (int): The ID of the item being reviewed.
+rating (Optional[int]): The updated rating, if provided. Must be between 0 and 5.
+comment (Optional[str]): The updated comment, if provided.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.comment">
+<span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.comment" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.customer_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.item_id">
+<span class="sig-name descname"><span class="pre">item_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.item_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.model_computed_fields" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'comment':</span> <span class="pre">FieldInfo(annotation=Union[str,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'customer_id':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'item_id':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True),</span> <span class="pre">'rating':</span> <span class="pre">FieldInfo(annotation=Union[int,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None,</span> <span class="pre">description='Rating</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">between</span> <span class="pre">1</span> <span class="pre">and</span> <span class="pre">5',</span> <span class="pre">metadata=[Ge(ge=0),</span> <span class="pre">Le(le=5)])}</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.model_fields" title="Link to this definition">¶</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo].</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewRequest.rating">
+<span class="sig-name descname"><span class="pre">rating</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#reviews.app.schemas.PutReviewRequest.rating" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.PutReviewResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">PutReviewResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">review_schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#reviews.app.schemas.PutReviewRequest" title="reviews.app.schemas.PutReviewRequest"><span class="pre">PutReviewRequest</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.PutReviewResponse" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#reviews.app.schemas.BaseCustomResponse" title="reviews.app.schemas.BaseCustomResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCustomResponse</span></code></a></p>
+<p>Response schema for updating an existing review.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>review_schema (PutReviewRequest): The schema of the updated review.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.app.schemas.</span></span><span class="sig-name descname"><span class="pre">Review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ge</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">ge</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Le</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">le</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flagged</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'flagged'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'approved'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'needs_approval'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.schemas.Review" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a review submitted by a customer.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>customer_id (str): The ID of the customer submitting the review.
+item_id (int): The ID of the item being reviewed.
+rating (int): The rating given by the customer, must be between 0 and 5.
+comment (str): The text comment provided by the customer.
+time (Optional[str]): The timestamp of when the review was submitted.
+flagged (Literal[“flagged”, “approved”, “needs_approval”]): The moderation status of the review.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.comment">
+<span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.Review.comment" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reviews.app.schemas.Review.customer_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.flagged">
+<span class="sig-name descname"><span class="pre">flagged</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'flagged'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'approved'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'needs_approval'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#reviews.app.schemas.Review.flagged" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.item_id">
+<span class="sig-name descname"><span class="pre">item_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reviews.app.schemas.Review.item_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.Review.model_computed_fields" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#reviews.app.schemas.Review.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'comment':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'customer_id':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'flagged':</span> <span class="pre">FieldInfo(annotation=Literal['flagged',</span> <span class="pre">'approved',</span> <span class="pre">'needs_approval'],</span> <span class="pre">required=True),</span> <span class="pre">'item_id':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True),</span> <span class="pre">'rating':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True,</span> <span class="pre">description='Rating</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">between</span> <span class="pre">1</span> <span class="pre">and</span> <span class="pre">5',</span> <span class="pre">metadata=[Ge(ge=0),</span> <span class="pre">Le(le=5)]),</span> <span class="pre">'time':</span> <span class="pre">FieldInfo(annotation=Union[str,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None)}</span></em><a class="headerlink" href="#reviews.app.schemas.Review.model_fields" title="Link to this definition">¶</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo].</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.rating">
+<span class="sig-name descname"><span class="pre">rating</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reviews.app.schemas.Review.rating" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.app.schemas.Review.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#reviews.app.schemas.Review.time" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-reviews.app">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-reviews.app" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">E-Commerce Khodor Yamani</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Hashem Khodor, Mahmoud Yamani.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/reviews.app.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

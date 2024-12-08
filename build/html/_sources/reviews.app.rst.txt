@@ -1,0 +1,45 @@
+reviews.app package
+===================
+
+Submodules
+----------
+
+reviews.app.auth module
+-----------------------
+
+.. automodule:: reviews.app.auth
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+reviews.app.main module
+-----------------------
+
+.. automodule:: reviews.app.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+reviews.app.models module
+-------------------------
+
+.. automodule:: reviews.app.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+reviews.app.schemas module
+--------------------------
+
+.. automodule:: reviews.app.schemas
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: reviews.app
+   :members:
+   :undoc-members:
+   :show-inheritance:

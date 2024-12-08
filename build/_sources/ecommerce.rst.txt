@@ -1,0 +1,101 @@
+Ecommerce Project Documentation
+================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+Modules
+-------
+
+Customer Module
+^^^^^^^^^^^^^^^
+
+.. automodule:: customer.app.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: customer.app.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: customer.app.schemas
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: customer.app.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Inventory Service Module
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: inventory_service.app.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: inventory_service.app.database
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: inventory_service.app.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: inventory_service.app.service
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Reviews Module
+^^^^^^^^^^^^^^
+
+.. automodule:: reviews.app.auth
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: reviews.app.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: reviews.app.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: reviews.app.schemas
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Sales Service Module
+^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: sales_service.app.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: sales_service.app.database
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: sales_service.app.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: sales_service.app.service
+   :members:
+   :undoc-members:
+   :show-inheritance:
