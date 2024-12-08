@@ -95,7 +95,7 @@ async def update_review(updated_review: PutReviewRequest):
         )
         if not stored_review:
             return PutReviewResponse(
-                status_code=status.HTTP_409_CONFLICT, review_schema=updated_review
+                status_code=status.HTTP_404_NOT_FOUND, review_schema=updated_review
             )
 
         updated_data = stored_review[0].model_dump()
@@ -391,3 +391,17 @@ app = FastAPI(
 )
 app.include_router(router, prefix="/api/v1")
 
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint to verify the service is operational.
+    :return: A simple status message.
+    :rtype: dict
+    """
+    try:
+        # Perform a basic database operation to verify connectivity
+        db.customer_and_item_exist("sure", 1)
+        return {"status": "OK", "db_status": "connected"}
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {"status": "ERROR", "db_status": "disconnected", "error": str(e)}

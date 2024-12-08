@@ -42,6 +42,7 @@ def test_health_check_success():
         "app.main.db.customer_and_item_exist", return_value=[{"id": 1}, {"id": 2}]
     ):
         response = client.get("/health")
+        print(response.json())
         assert response.status_code == 200
         assert response.json() == {"status": "OK", "db_status": "connected"}
 
